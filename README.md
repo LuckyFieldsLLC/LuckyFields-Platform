@@ -1,0 +1,2 @@
+# LuckyFields-Platform
+LuckyFields.LLCの全アプリ共通基盤。Netlify Blobs、Functions、API、UIなどをモジュール化し、共通ユーティリティとして提供するTypeScriptベースのPlatform。
