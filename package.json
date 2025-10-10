@@ -1,0 +1,30 @@
+{
+  "name": "@luckyfields/platform",
+  "version": "0.1.0",
+  "description": "LuckyFields.LLCの全アプリ共通基盤。Netlify Blobs、Functions、API、UIなどをモジュール化し、共通ユーティリティとして提供するTypeScriptベースのPlatform。",
+  "type": "module",
+  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run build && npm run dev --workspaces --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuckyFieldsLLC/LuckyFields-Platform.git"
+  },
+  "keywords": ["netlify", "blobs", "functions", "typescript", "platform"],
+  "author": "LuckyFields.LLC",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/LuckyFieldsLLC/LuckyFields-Platform/issues"
+  },
+  "homepage": "https://github.com/LuckyFieldsLLC/LuckyFields-Platform#readme"
+}
