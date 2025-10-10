@@ -1,0 +1,14 @@
+[build]
+  publish = "docs"
+  functions = "netlify/functions"
+
+[dev]
+  framework = "#static"
+  autoLaunch = false
+[build]
+  publish = "docs"
+  functions = "netlify/functions"
+
+[dev]
+  framework = "#static"
+  autoLaunch = false

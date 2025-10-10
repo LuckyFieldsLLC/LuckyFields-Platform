@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2025-10-10T11:39:34.225Z",
+  "metrics": {
+    "repositoryPath": ".",
+    "scripts": {
+      "build": "rimraf dist && tsc -p tsconfig.json",
+      "dev": "tsx src/index.ts",
+      "scan": "tsx src/index.ts",
+      "clean": "rimraf dist"
+    },
+    "build": {
+      "hasScript": true,
+      "success": true,
+      "durationMs": 817,
+      "stdoutPreview": "",
+      "stderrPreview": ""
+    },
+    "test": {
+      "hasScript": false,
+      "success": null,
+      "durationMs": null
+    },
+    "env": {
+      "envFiles": [],
+      "envLoadedKeys": 0,
+      "usesEnvCore": false
+    }
+  },
+  "score": {
+    "score": 65,
+    "grade": "C",
+    "reasons": [
+      "test スクリプトが存在しません",
+      ".env ファイルが見つかりません",
+      "@luckyfields/env-core を使用していません"
+    ]
+  }
+}

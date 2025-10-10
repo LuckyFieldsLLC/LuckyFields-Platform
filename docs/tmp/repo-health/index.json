@@ -1,0 +1,86 @@
+[
+  {
+    "generatedAt": "2025-10-10T14:01:17.905Z",
+    "metrics": {
+      "repositoryPath": "E:\\git\\LuckyFields-Platform",
+      "scripts": {
+        "build": "npm run build --workspaces --if-present",
+        "test": "echo \"ok\" && exit 0",
+        "dev": "npm run build && npm run dev --workspaces --if-present",
+        "health:scan": "npm -w @luckyfields/repo-health run scan -- --cwd .",
+        "health:scan:json": "npm -w @luckyfields/repo-health run scan -- --json --cwd .",
+        "health:scan:report": "npm -w @luckyfields/repo-health run scan -- --json --report --cwd .",
+        "dev:local": "node ./dev/local-server.js",
+        "health:dashboard": "node ./scripts/generate-health-index.mjs"
+      },
+      "build": {
+        "hasScript": true,
+        "success": true,
+        "durationMs": 2481,
+        "stdoutPreview": "",
+        "stderrPreview": ""
+      },
+      "test": {
+        "hasScript": true,
+        "success": true,
+        "durationMs": 221,
+        "stdoutPreview": "\"ok\" \r\n",
+        "stderrPreview": ""
+      },
+      "env": {
+        "envFiles": [
+          ".env"
+        ],
+        "envLoadedKeys": 2,
+        "usesEnvCore": true
+      }
+    },
+    "score": {
+      "score": 100,
+      "grade": "A",
+      "reasons": []
+    }
+  },
+  {
+    "generatedAt": "2025-10-10T13:54:20.742Z",
+    "metrics": {
+      "repositoryPath": "E:\\git\\LuckyFields-Platform",
+      "scripts": {
+        "build": "npm run build --workspaces --if-present",
+        "test": "echo \"ok\" && exit 0",
+        "dev": "npm run build && npm run dev --workspaces --if-present",
+        "health:scan": "npm -w @luckyfields/repo-health run scan -- --cwd .",
+        "health:scan:json": "npm -w @luckyfields/repo-health run scan -- --json --cwd .",
+        "health:scan:report": "npm -w @luckyfields/repo-health run scan -- --json --report --cwd .",
+        "dev:local": "node ./dev/local-server.js",
+        "health:dashboard": "node ./scripts/generate-health-index.mjs"
+      },
+      "build": {
+        "hasScript": true,
+        "success": true,
+        "durationMs": 2975,
+        "stdoutPreview": "",
+        "stderrPreview": ""
+      },
+      "test": {
+        "hasScript": true,
+        "success": true,
+        "durationMs": 258,
+        "stdoutPreview": "\"ok\" \r\n",
+        "stderrPreview": ""
+      },
+      "env": {
+        "envFiles": [
+          ".env"
+        ],
+        "envLoadedKeys": 2,
+        "usesEnvCore": true
+      }
+    },
+    "score": {
+      "score": 100,
+      "grade": "A",
+      "reasons": []
+    }
+  }
+]

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Repo Health Monitor</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 20px; }
+      h1 { margin-bottom: 8px; }
+      .meta { color: #666; margin-bottom: 16px; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { padding: 8px 10px; border-bottom: 1px solid #eee; text-align: left; }
+      .ok { color: #0a7a0a; font-weight: 600; }
+      .bad { color: #b00020; font-weight: 600; }
+      .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+      .tag.ok { background: #e7f6e7; color: #0a7a0a; }
+      .tag.bad { background: #fde7ea; color: #b00020; }
+      .muted { color: #888; }
+    </style>
+  </head>
+  <body>
+    <h1>Repo Health Monitor</h1>
+    <div class="meta">30秒ごとに自動更新します。</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Repository</th>
+          <th>Score</th>
+          <th>Grade</th>
+          <th>ScannedAt</th>
+          <th>Build</th>
+          <th>Test</th>
+          <th>Env</th>
+        </tr>
+      </thead>
+      <tbody id="rows"><tr><td colspan="7" class="muted">Loading...</td></tr></tbody>
+    </table>
+
+    <script>
+      const endpoint = (window.LF_API_BASE_URL || '') + '/.netlify/functions/repo-health-list';
+      async function fetchList() {
+        // Try function endpoint first
+        try {
+          const res = await fetch(endpoint, { cache: 'no-store' });
+          if (res.ok) return await res.json();
+        } catch {}
+        // Fallback: load local JSON snapshots if served statically (dev local server only)
+        try {
+          const res = await fetch('/tmp/repo-health/index.json', { cache: 'no-store' });
+          if (res.ok) return await res.json();
+        } catch {}
+        return [];
+      }
+      function td(text) { const el = document.createElement('td'); el.textContent = text; return el; }
+      function tag(ok) { const el = document.createElement('span'); el.className = 'tag ' + (ok ? 'ok' : 'bad'); el.textContent = ok ? 'OK' : 'NG'; return el; }
+      async function render() {
+        const data = await fetchList();
+        const tbody = document.getElementById('rows');
+        tbody.innerHTML = '';
+        if (!data || !data.length) { const tr = document.createElement('tr'); const td1 = document.createElement('td'); td1.colSpan = 7; td1.textContent = 'No data'; td1.className='muted'; tr.appendChild(td1); tbody.appendChild(tr); return; }
+        for (const item of data) {
+          const tr = document.createElement('tr');
+          tr.appendChild(td(item.repositoryId || 'unknown'));
+          tr.appendChild(td(String(item.score?.score ?? '-')));
+          tr.appendChild(td(item.score?.grade ?? '-'));
+          tr.appendChild(td(item.generatedAt ?? '-'));
+          tr.appendChild(td('build:' + (item.metrics?.build?.success ? 'OK' : 'NG')));
+          tr.appendChild(td('test:' + (item.metrics?.test?.success ? 'OK' : 'NG')));
+          const envOk = (item.metrics?.env?.envFiles?.length || 0) > 0 && !!item.metrics?.env?.usesEnvCore;
+          const tdEnv = document.createElement('td'); tdEnv.appendChild(tag(envOk)); tr.appendChild(tdEnv);
+          tbody.appendChild(tr);
+        }
+      }
+      render();
+      setInterval(render, 30000);
+    </script>
+  </body>
+</html>
