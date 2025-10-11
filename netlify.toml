@@ -22,3 +22,10 @@
   publish = "docs"
   functions = "netlify/functions"
   autoLaunch = false
+
+## Redirects
+[[redirects]]
+  from = "/"
+  to = "/dashboard/"
+  status = 302
+  force = true
