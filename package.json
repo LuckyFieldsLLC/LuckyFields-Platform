@@ -37,7 +37,7 @@
   "dependencies": {
     "@luckyfields/env-core": "workspace:*",
     "@netlify/functions": "^2.5.0",
-    "@netlify/blobs": "^6.5.0"
+    "@netlify/blobs": "^10.1.0"
   },
   "bugs": {
     "url": "https://github.com/LuckyFieldsLLC/LuckyFields-Platform/issues"
