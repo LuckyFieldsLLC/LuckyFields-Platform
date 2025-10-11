@@ -1,6 +1,6 @@
 [build]
   # Keep the build step minimal to avoid invoking bundlers like Rollup unless needed.
-  command = "echo Skipping site build (static docs + functions)"
+  command = "echo 'Skipping site build (static docs + functions)'"
   publish = "docs"
   functions = "netlify/functions"
 
