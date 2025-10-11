@@ -1,14 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "noEmit": false,
     "declaration": true,
-    "emitDeclarationOnly": false,
-    "moduleResolution": "bundler",
+    "composite": true,
+    "moduleResolution": "Bundler",
     "module": "ESNext",
     "target": "ES2022"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

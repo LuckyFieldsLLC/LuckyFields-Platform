@@ -1,38 +1,15 @@
-name: Repo Health Check
+name: Health Check
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
-  health:
+  ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run health scan (JSON)
-        run: npm run health:scan:json
-
-      - name: Upload repo-health.json artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: repo-health
-          path: reports/repo-health.json
-
-      - name: Optional - POST report to Netlify Function
-        if: ${{ env.LF_API_BASE_URL != '' }}
-        env:
-          LF_API_BASE_URL: ${{ secrets.LF_API_BASE_URL }}
-        run: |
-          npm run health:scan:report -- --repo-id luckyfields-platform || true
+      - name: Check site availability (public)
+        run: curl -I https://kids-daily-quiz.netlify.app || exit 1
+      - name: Check internal status API
+        run: curl -I https://kids-daily-quiz.netlify.app/.netlify/functions/status || exit 1

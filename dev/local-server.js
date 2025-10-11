@@ -13,7 +13,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 const docsDir = path.join(rootDir, 'docs');
 const tmpDir = path.join(rootDir, 'tmp', 'repo-health');
-const PORT = Number(process.env.PORT || 8888);
+const PORT = Number(process.env.PORT || 8911);
 
 function send(res, status, body, headers = {}) {
   const h = { 'Content-Type': 'text/plain; charset=utf-8', ...headers };
@@ -140,6 +140,10 @@ const server = http.createServer(async (req, res) => {
 
   if (handleCors(req, res)) return;
 
+  if (pathname === '/__health') {
+    return sendJson(res, 200, { ok: true, port: PORT }, corsHeaders());
+  }
+
   if (pathname === '/.netlify/functions/repo-health') {
     if (req.method === 'POST') return handleRepoHealthPost(req, res);
     return send(res, 405, 'Method Not Allowed', corsHeaders());
@@ -159,10 +163,11 @@ server.on('error', (e) => {
   console.error('[local-server] Server error:', e);
 });
 
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`[local-server] Listening on http://127.0.0.1:${PORT}`);
   console.log(`[local-server] Static docs: ${docsDir}`);
   console.log(`[local-server] Endpoints:`);
   console.log(`  POST /.netlify/functions/repo-health`);
   console.log(`  GET  /.netlify/functions/repo-health-list`);
+  console.log(`  GET  /__health`);
 });
