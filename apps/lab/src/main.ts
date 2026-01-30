@@ -200,13 +200,16 @@ function renderProjectCard(p: Project, lang: string, dict: I18n) {
   const desc = p.description[lang] || p.description['en'] || Object.values(p.description)[0] || '';
   return `
     <div class="card">
+      <div style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem;">
+        ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
       <h3>${p.title}</h3>
       <p>${desc}</p>
-      <div>${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-      <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
         ${p.links.map(l => {
     const label = l.type === 'github' ? dict.ui.view_github : dict.ui.visit_site;
-    return `<a href="${l.url}" target="_blank" class="tag" style="background: #3b82f640; border: 1px solid #3b82f660;">${label}</a>`;
+    const icon = l.type === 'github' ? '📦' : '🔗';
+    return `<a href="${l.url}" target="_blank" class="tag" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 600;">${icon} ${label}</a>`;
   }).join('')}
       </div>
     </div>
@@ -215,9 +218,9 @@ function renderProjectCard(p: Project, lang: string, dict: I18n) {
 
 function renderAccountCard(a: Account, dict: I18n) {
   return `
-    <a href="${a.url}" target="_blank" class="card">
-      <h3>${a.title}</h3>
-      <p class="muted">${dict.ui.visit_site}</p>
+    <a href="${a.url}" target="_blank" class="card" style="justify-content: center; align-items: center; text-align: center;">
+      <h3 style="margin-bottom: 0.5rem;">${a.title}</h3>
+      <span class="tag" style="background: rgba(255, 255, 255, 0.05); color: var(--secondary-text);">${dict.ui.visit_site}</span>
     </a>
   `;
 }
