@@ -40,7 +40,7 @@ async function loadData<T>(path: string, fallback: T): Promise<T> {
 
 interface I18n {
   ui: {
-    featured: string;
+    featured_projects: string;
     visit_site: string;
     view_github: string;
     filter_by_persona: string;
@@ -48,21 +48,19 @@ interface I18n {
     no_content: string;
     activity: string;
     categories: Record<string, string>;
+    applications: string;
+    media: string;
+    ai_works: string;
   };
 }
 
 interface FeedItem {
   id: string;
   title: string;
-  url: string;
-  date: string;
-  summary: string;
-  sourceId: string;
-  persona: string[];
-  category: string;
+  link: string;
+  isoDate: string;
+  contentSnippet: string;
 }
-
-let currentFilter = 'all';
 
 async function init() {
   const [settings, projects, accounts, feedCache] = await Promise.all([
@@ -73,127 +71,167 @@ async function init() {
   ]);
 
   const lang = localStorage.getItem('preferred_lang') || settings.default_lang;
-  const dict = await loadData<I18n>(`/i18n/${lang}.json`, {
-    ui: { featured: 'Featured', visit_site: 'Visit', view_github: 'GitHub', filter_by_persona: 'Filter', filter_all: 'All', no_content: 'None', activity: 'Activity', categories: {} }
-  });
 
+  // App Shell Structure
   const app = document.querySelector<HTMLDivElement>('#app')!;
-
-  // Render Header
   app.innerHTML = `
     <header>
-      <div class="logo"><a href="/" style="text-decoration:none; color:inherit;"><strong>${settings.site_name}</strong></a></div>
-      <nav>
+      <div class="logo">
+        <a href="/">LuckyFields.Lab</a>
+      </div>
+      <div>
         <select id="lang-select">
           ${settings.available_langs.map(l => `<option value="${l}" ${l === lang ? 'selected' : ''}>${l.toUpperCase()}</option>`).join('')}
         </select>
-      </nav>
+      </div>
     </header>
-    <div id="filter-container"></div>
-    <main id="content"></main>
+    
+    <aside class="sidebar" id="sidebar">
+      <!-- Navigation Items will be injected here -->
+    </aside>
+
+    <main id="content">
+      <!-- Dynamic Content Area -->
+      <div id="dynamic-view"></div>
+    </main>
+
+    <footer>
+      <p>© 2026 LuckyFields.LLC - All Rights Reserved.</p>
+    </footer>
   `;
 
-  document.querySelector('#lang-select')?.addEventListener('change', (e) => {
-    const newLang = (e.target as HTMLSelectElement).value;
-    localStorage.setItem('preferred_lang', newLang);
-    window.location.reload();
-  });
+  const dynamicView = document.getElementById('dynamic-view')!;
+  const sidebar = document.getElementById('sidebar')!;
+  const langSelect = document.getElementById('lang-select') as HTMLSelectElement;
 
-  // Extract all personas
-  const allPersonas = Array.from(new Set([
-    ...projects.flatMap(p => p.persona),
-    ...accounts.flatMap(a => a.persona),
-    ...feedCache.flatMap(f => f.persona)
-  ]));
-
-  function renderUI() {
-    const content = document.querySelector('#content')!;
-    const filterContainer = document.querySelector('#filter-container')!;
-    content.innerHTML = '';
-
-    // Render Filter Bar
-    filterContainer.innerHTML = `
-      <div class="filter-bar">
-        <span class="persona-label">${dict.ui.filter_by_persona}</span>
-        <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">${dict.ui.filter_all}</button>
-        ${allPersonas.map(p => `<button class="filter-btn ${currentFilter === p ? 'active' : ''}" data-filter="${p}">${p}</button>`).join('')}
-      </div>
-    `;
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentFilter = btn.getAttribute('data-filter') || 'all';
-        renderUI();
-      });
+  if (langSelect) {
+    langSelect.addEventListener('change', (e) => {
+      const newLang = (e.target as HTMLSelectElement).value;
+      localStorage.setItem('preferred_lang', newLang);
+      window.location.reload();
     });
-
-    const filteredProjects = projects.filter(p => currentFilter === 'all' || p.persona.includes(currentFilter));
-    const filteredAccounts = accounts.filter(a => (currentFilter === 'all' || a.persona.includes(currentFilter)) && a.enabled);
-    const filteredFeed = feedCache.filter(f => currentFilter === 'all' || f.persona.includes(currentFilter));
-
-    // Featured Section (only if filter is 'all' or specific persona matches featured)
-    const featured = filteredProjects.filter(p => p.featured);
-    if (featured.length > 0) {
-      const featuredEl = document.createElement('section');
-      featuredEl.className = 'featured-section';
-      featuredEl.innerHTML = `
-        <h2>${dict.ui.featured}</h2>
-        <div class="grid">
-          ${featured.map(p => renderProjectCard(p, lang, dict)).join('')}
-        </div>
-      `;
-      content.appendChild(featuredEl);
-    }
-
-    // Activity / Feed Section
-    if (filteredFeed.length > 0) {
-      const activityEl = document.createElement('section');
-      activityEl.innerHTML = `
-        <h2 class="category-title">${dict.ui.activity}</h2>
-        <div class="card" style="padding:0; overflow:hidden;">
-          ${filteredFeed.slice(0, 10).map(f => renderFeedCard(f)).join('')}
-        </div>
-      `;
-      content.appendChild(activityEl);
-    }
-
-    // Categories
-    const categories = ['Applications', 'Creative AI', 'Media'];
-    categories.forEach(cat => {
-      const catProjects = filteredProjects.filter(p => p.category === cat && !p.featured);
-      const catAccounts = filteredAccounts.filter(a => a.category === cat);
-
-      if (catProjects.length > 0 || catAccounts.length > 0) {
-        const section = document.createElement('section');
-        const catTitle = dict.ui.categories[cat] || cat;
-        section.innerHTML = `
-          <h2 class="category-title">${catTitle}</h2>
-          <div class="grid">
-            ${catProjects.map(p => renderProjectCard(p, lang, dict)).join('')}
-            ${catAccounts.map(a => renderAccountCard(a, dict)).join('')}
-          </div>
-        `;
-        content.appendChild(section);
-      }
-    });
-
-    if (content.innerHTML === '') {
-      content.innerHTML = `<p class="muted">${dict.ui.no_content}</p>`;
-    }
   }
 
+  let currentLang = lang;
+  let currentFilter = 'all';
+
+  // Navigation Menu Definition
+  const menuItems = [
+    { id: 'all', label: 'Dashboard', icon: '🏠' },
+    { id: 'projects', label: 'Projects', icon: '📂' },
+    { id: 'Applications', label: 'Applications', icon: '📱' },
+    { id: 'Media', label: 'Media', icon: '🎬' },
+    { id: 'Creative AI', label: 'AI Works', icon: '🤖' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
+  ];
+
+  function renderSidebar() {
+    sidebar.innerHTML = menuItems.map(item => `
+      <div class="nav-item ${currentFilter === item.id ? 'active' : ''}" data-id="${item.id}">
+        <span class="nav-icon">${item.icon}</span>
+        <span>${item.label}</span>
+      </div>
+    `).join('');
+
+    sidebar.querySelectorAll('.nav-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const id = el.getAttribute('data-id')!;
+        currentFilter = id;
+        renderUI();
+        renderSidebar();
+      });
+    });
+  }
+
+  function renderUI() {
+    fetch(`/i18n/${currentLang}.json`).then(r => r.json()).then((dict: I18n) => {
+      let html = '';
+
+      if (currentFilter === 'all') {
+        // Dashboard
+        html += `<section class="featured-section">
+            <h2>${dict.ui.featured_projects || 'Featured Projects'}</h2>
+            <div class="grid">
+                ${projects.filter(p => p.featured).map(p => renderProjectCard(p, currentLang, dict)).join('')}
+            </div>
+        </section>`;
+
+        html += `<h2 class="category-title">Activity</h2>`;
+        html += `<div id="feed-container">Loading...</div>`;
+
+        // Use cached feed if available, otherwise load
+        if (feedCache && feedCache.length > 0) {
+          setTimeout(() => renderFeed(feedCache, 'feed-container'), 0);
+        } else {
+          loadFeed('feed-container');
+        }
+      }
+      else if (currentFilter === 'projects') {
+        html += `<h2 class="category-title">All Projects</h2>`;
+        html += `<div class="grid">
+          ${projects.map(p => renderProjectCard(p, currentLang, dict)).join('')}
+        </div>`;
+      }
+      else if (currentFilter === 'Applications') {
+        html += `<h2 class="category-title">${dict.ui.applications}</h2>`;
+        const apps = accounts.filter(a => a.category === 'Applications' || a.category === 'Game Tools'); // Example mapping
+        html += `<div class="grid">
+            ${apps.map(a => renderAccountCard(a, dict)).join('')}
+        </div>`;
+      }
+      else if (currentFilter === 'settings') {
+        html += `<h2>Settings</h2><p style="color: var(--secondary-text); margin-top: 1rem;">Settings panel coming soon.</p>`;
+      }
+      else {
+        // Filter by Category
+        const filtered = projects.filter(p => p.category === currentFilter);
+        html += `<h2 class="category-title">${currentFilter}</h2>`;
+        if (filtered.length > 0) {
+          html += `<div class="grid">
+            ${filtered.map(p => renderProjectCard(p, currentLang, dict)).join('')}
+          </div>`;
+        } else {
+          html += `<p style="color: var(--secondary-text);">No items found in this category.</p>`;
+        }
+      }
+      dynamicView.innerHTML = html;
+    });
+  }
+
+  renderSidebar();
   renderUI();
 }
 
-function renderFeedCard(f: FeedItem) {
-  const date = new Date(f.date).toLocaleDateString();
-  return `
-    <a href="${f.url}" target="_blank" class="feed-card">
-      <div class="feed-date">${date}</div>
-      <div class="feed-title">${f.title}</div>
-      <div class="feed-summary">${f.summary}</div>
-    </a>
-  `;
+function renderFeed(data: any[], containerId: string) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  if (!data || data.length === 0) {
+    container.innerHTML = '<p class="muted">No recent activity.</p>';
+    return;
+  }
+  container.innerHTML = data.slice(0, 5).map((item: any) => `
+        <a href="${item.link}" target="_blank" class="feed-card">
+        <div class="feed-date">${new Date(item.isoDate).toLocaleDateString()}</div>
+        <div class="feed-title">${item.title}</div>
+        <div class="feed-summary">${item.contentSnippet || ''}</div>
+        </a>
+    `).join('');
+}
+
+function loadFeed(containerId: string) {
+  fetch('/.netlify/functions/rss-poll')
+    .then(res => {
+      if (!res.ok) throw new Error('API Error');
+      return res.json();
+    })
+    .then(data => {
+      renderFeed(data, containerId);
+    })
+    .catch(err => {
+      const container = document.getElementById(containerId);
+      if (container) container.innerHTML = `<p style="color:red">Failed to load feed.</p>`;
+      console.error(err);
+    });
 }
 
 function renderProjectCard(p: Project, lang: string, dict: I18n) {
@@ -216,6 +254,8 @@ function renderProjectCard(p: Project, lang: string, dict: I18n) {
   `;
 }
 
+// Function exported but unused, kept for future use
+// @ts-ignore
 function renderAccountCard(a: Account, dict: I18n) {
   return `
     <a href="${a.url}" target="_blank" class="card" style="justify-content: center; align-items: center; text-align: center;">
