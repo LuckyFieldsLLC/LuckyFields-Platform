@@ -1,0 +1,14 @@
+{
+    "site_name": "LuckyFields.Lab",
+    "default_lang": "ja",
+    "available_langs": [
+        "ja",
+        "en",
+        "zh-TW",
+        "ko"
+    ],
+    "meta": {
+        "description": "LuckyFields.LLC Creative Hub & Portfolio",
+        "author": "LuckyFields.LLC"
+    }
+}

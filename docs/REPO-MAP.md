@@ -87,21 +87,27 @@ graph TD
 ```
 LuckyFields Ecosystem
 ├── 🏗️ LuckyFields-Platform (Core Infrastructure)
+│   ├── apps/
+│   │   └── lab/                  # LuckyFields.Lab Portal Site (NEW)
 │   ├── packages/
 │   │   ├── blobs-utils/           # File storage & management
 │   │   ├── functions-utils/       # Serverless function helpers
 │   │   ├── api-utils/            # HTTP clients & API patterns
 │   │   ├── config-utils/         # Configuration management
+│   │   ├── env-core/             # Environment & Schema core
+│   │   ├── repo-health/          # Repository health monitoring
 │   │   ├── ai-utils/             # AI & LLM integration
 │   │   ├── notebook-utils/       # Jupyter & data analysis
 │   │   ├── diagnostics/          # Monitoring & error tracking
 │   │   ├── hooks/                # React hooks & state
 │   │   └── ui-components/        # Design system & components
-│   ├── docs/                     # Platform documentation
+│   ├── data/                     # Source of Truth (JSON data)
+│   ├── docs/                     # Platform & Design Documentation
 │   ├── tools/                    # Build & development tools
+│   └── netlify/                  # Serverless Functions
 │   └── examples/                 # Usage examples
 │
-├── 🎓 kids-daily-quiz (Educational Platform)
+├── 🎓 kids-daily-quiz (Project - External)
 │   ├── src/
 │   ├── components/               # App-specific components
 │   ├── pages/                    # Quiz & learning pages
@@ -138,6 +144,7 @@ LuckyFields Ecosystem
 | future-apps | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 | 🔄 |
 
 **Legend:**
+
 - ✅ Currently using
 - ❌ Not using
 - 🔄 Planned/Variable
@@ -272,12 +279,14 @@ Application Feedback
 ## Scaling Considerations
 
 ### Current Scale
+
 - **Modules**: 9 active modules
 - **Applications**: 3 active applications
 - **Teams**: 4 development teams
 - **Deployments**: Multiple platforms (Netlify, Vercel, AWS)
 
 ### Growth Projections
+
 ```
 Year 1 (2025): 9 modules → 15 modules, 3 apps → 6 apps
 Year 2 (2026): 15 modules → 25 modules, 6 apps → 12 apps

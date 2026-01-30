@@ -1,0 +1,53 @@
+[
+    {
+        "id": "note",
+        "title": "NOTE (LuckyFields)",
+        "category": "Media",
+        "url": "https://note.com/luckyfields",
+        "persona": [
+            "Media"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "github-org",
+        "title": "GitHub Org",
+        "category": "Media",
+        "url": "https://github.com/LuckyFieldsLLC",
+        "persona": [
+            "Dev"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "youtube",
+        "title": "YouTube Channel",
+        "category": "Media",
+        "url": "https://www.youtube.com/@luckyfields",
+        "persona": [
+            "Media"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "suno-ai",
+        "title": "Suno AI Music",
+        "category": "Creative AI",
+        "url": "https://suno.com/@luckyfields",
+        "persona": [
+            "Media",
+            "Private"
+        ],
+        "enabled": true
+    },
+    {
+        "id": "x-twitter",
+        "title": "X (Twitter)",
+        "category": "Media",
+        "url": "https://x.com/luckyfields",
+        "persona": [
+            "Media"
+        ],
+        "enabled": true
+    }
+]

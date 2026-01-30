@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
@@ -31,13 +32,14 @@
   "author": "LuckyFields.LLC",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^5.9.0",
-    "@types/node": "^22.0.0"
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
   },
   "dependencies": {
     "@luckyfields/env-core": "workspace:*",
+    "@netlify/blobs": "^10.1.0",
     "@netlify/functions": "^2.5.0",
-    "@netlify/blobs": "^10.1.0"
+    "rss-parser": "^3.13.0"
   },
   "bugs": {
     "url": "https://github.com/LuckyFieldsLLC/LuckyFields-Platform/issues"

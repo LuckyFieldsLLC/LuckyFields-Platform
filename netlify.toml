@@ -1,7 +1,7 @@
 [build]
-  # Keep the build step minimal to avoid invoking bundlers like Rollup unless needed.
-  command = "echo 'Skipping site build (static docs + functions)'"
-  publish = "docs"
+  # Build apps/lab
+  command = "npm run build -w @luckyfields/lab"
+  publish = "apps/lab/dist"
   functions = "netlify/functions"
 
 [build.environment]
@@ -12,9 +12,9 @@
   # Keep default flags lean but DO NOT omit optional deps.
   NPM_FLAGS = "--no-audit --progress=false"
 
-[functions]
   # Use esbuild for functions bundling to avoid rollup dependency.
   node_bundler = "esbuild"
+  included_files = ["data/*.json"]
 
 # Optional: local dev hints; cloud deploy ignores this.
 [dev]
@@ -23,9 +23,4 @@
   functions = "netlify/functions"
   autoLaunch = false
 
-## Redirects
-[[redirects]]
-  from = "/"
-  to = "/dashboard/"
-  status = 302
-  force = true
+# Redirects - Not used for root landing page

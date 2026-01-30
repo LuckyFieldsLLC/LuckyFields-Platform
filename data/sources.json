@@ -1,0 +1,24 @@
+[
+    {
+        "id": "note-rss",
+        "name": "NOTE (LuckyFields)",
+        "type": "rss",
+        "url": "https://note.com/luckyfields/rss",
+        "persona": [
+            "Media"
+        ],
+        "category": "Media",
+        "enabled": true
+    },
+    {
+        "id": "youtube-rss",
+        "name": "YouTube (LuckyFields)",
+        "type": "rss",
+        "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCKU695_49u26YqYx8F0X9_Q",
+        "persona": [
+            "Media"
+        ],
+        "category": "Media",
+        "enabled": true
+    }
+]

@@ -1,0 +1,16 @@
+{
+    "ui": {
+        "featured": "Featured Projects",
+        "visit_site": "Visit Site",
+        "view_github": "View GitHub",
+        "filter_by_persona": "Filter by Persona",
+        "filter_all": "All",
+        "no_content": "No content found.",
+        "activity": "Recent Activity",
+        "categories": {
+            "Applications": "Applications",
+            "Creative AI": "Creative AI",
+            "Media": "Media / Posts"
+        }
+    }
+}

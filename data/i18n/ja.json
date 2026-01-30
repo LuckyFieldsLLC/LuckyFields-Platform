@@ -1,0 +1,16 @@
+{
+    "ui": {
+        "featured": "注目プロジェクト",
+        "visit_site": "サイトを見る",
+        "view_github": "GitHubを表示",
+        "filter_by_persona": "ペルソナで絞り込む",
+        "filter_all": "すべて",
+        "no_content": "コンテンツが見つかりません。",
+        "activity": "最新の活動",
+        "categories": {
+            "Applications": "アプリケーション",
+            "Creative AI": "クリエイティブ AI",
+            "Media": "メディア / 発信"
+        }
+    }
+}

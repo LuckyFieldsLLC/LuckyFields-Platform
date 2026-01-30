@@ -1,0 +1,93 @@
+[
+    {
+        "id": "luckyfields-platform",
+        "title": "LuckyFields-Platform",
+        "category": "Applications",
+        "subcategory": "Core",
+        "persona": [
+            "Dev"
+        ],
+        "featured": true,
+        "description": {
+            "ja": "全アプリの共通基盤。Netlify Blobs、Functions、API、UIなどをモジュール化したプラットフォーム。",
+            "en": "Common infrastructure for all apps. A modular platform providing Netlify Blobs, Functions, API, UI, etc."
+        },
+        "links": [
+            {
+                "type": "github",
+                "url": "https://github.com/LuckyFieldsLLC/LuckyFields-Platform"
+            }
+        ],
+        "tags": [
+            "Netlify",
+            "TypeScript",
+            "Monorepo"
+        ]
+    },
+    {
+        "id": "sekikenzai-system",
+        "title": "Sekikenzai Management System",
+        "category": "Applications",
+        "subcategory": "Business",
+        "persona": [
+            "Business",
+            "Dev"
+        ],
+        "featured": true,
+        "description": {
+            "ja": "関建材の業務管理システム。見積、納品、在庫管理をデジタル化し、業務効率を大幅に改善。",
+            "en": "Business management system for Sekikenzai. Digitized estimation, delivery, and inventory management."
+        },
+        "links": [],
+        "tags": [
+            "PHP",
+            "Business Logic",
+            "Digital Transformation"
+        ]
+    },
+    {
+        "id": "minsei-app",
+        "title": "Minsei App",
+        "category": "Applications",
+        "subcategory": "Health",
+        "persona": [
+            "Private"
+        ],
+        "featured": false,
+        "description": {
+            "ja": "日々の健康とマインドフルネスをサポートするウェルネスアプリケーション。",
+            "en": "A wellness application supporting daily health and mindfulness."
+        },
+        "links": [],
+        "tags": [
+            "React",
+            "Wellness",
+            "Self-Care"
+        ]
+    },
+    {
+        "id": "kids-daily-quiz",
+        "title": "Kids Daily Quiz",
+        "category": "Applications",
+        "subcategory": "Educational",
+        "persona": [
+            "Game"
+        ],
+        "featured": true,
+        "description": {
+            "ja": "子供向けの教育クイズプラットフォーム。楽しみながら学習を継続できる仕組みを提供。",
+            "en": "Educational quiz platform for kids. Providing a fun way to continue learning every day."
+        },
+        "links": [
+            {
+                "type": "visit",
+                "url": "https://kids-daily-quiz.netlify.app"
+            }
+        ],
+        "tags": [
+            "Education",
+            "Gamification",
+            "Netlify"
+        ]
+    }
+]
