@@ -29,28 +29,16 @@ body {
 }
 
 /* Layout Structure */
-/* Layout Structure */
 #app {
-  display: grid;
-  grid-template-areas:
-    "sidebar main"
-    "footer footer";
-  grid-template-columns: 280px 1fr;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  max-width: 100%;
   margin: 0;
   padding: 0;
-  padding-top: var(--header-height);
-  /* Space for fixed header */
 }
 
 /* Header */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   width: 100%;
   z-index: 1000;
   height: var(--header-height);
@@ -61,7 +49,7 @@ header {
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--card-border);
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 }
 
 /* Base Styles */
@@ -100,19 +88,9 @@ h3 {
   margin: 0;
 }
 
-/* Sidebar (Left Column) */
+/* Sidebar (Default Hidden on Mobile) */
 .sidebar {
-  grid-area: sidebar;
-  background: rgba(8, 9, 10, 0.4);
-  border-right: 1px solid var(--card-border);
-  padding: 2rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: sticky;
-  top: var(--header-height);
-  height: calc(100vh - var(--header-height));
-  overflow-y: auto;
+  display: none;
 }
 
 .nav-item {
@@ -147,39 +125,143 @@ h3 {
 
 /* Main Content Area */
 #content {
-  grid-area: main;
-  padding: 2rem 3rem 4rem;
-  overflow-x: hidden;
+  flex: 1;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Footer */
 footer {
-  grid-area: footer;
   border-top: 1px solid var(--card-border);
   padding: 2rem;
   text-align: center;
   color: var(--secondary-text);
   font-size: 0.875rem;
   background: rgba(8, 9, 10, 0.6);
+  width: 100%;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Mobile Drawer & Menu */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1100;
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  background-color: var(--text-color);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+#drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1050;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+#drawer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--bg-color);
+  z-index: 1100;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 1px solid var(--card-border);
+  padding: var(--header-height) 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#drawer.active {
+  transform: translateX(0);
+}
+
+/* Desktop Styles (min-width: 769px) */
+@media (min-width: 769px) {
   #app {
+    display: grid;
     grid-template-areas:
-      "header"
-      "main"
-      "footer";
-    grid-template-columns: 1fr;
+      "sidebar main"
+      "footer footer";
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr auto;
+    padding-top: var(--header-height);
+    /* Space for fixed header */
+    padding-bottom: 70px;
+    /* Space for fixed footer */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 2rem;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
   }
 
   .sidebar {
-    display: none;
-    /* Mobile menu to be implemented later */
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(8, 9, 10, 0.4);
+    border-right: 1px solid var(--card-border);
+    padding: 2rem 1.5rem;
+    position: fixed;
+    top: 79px;
+    /* adjust for heade border */
+    left: 0;
+    height: calc(100vh - 80px - 70px);
+    /* Height minus header and footer */
+    overflow-y: auto;
+    width: 280px;
   }
 
   #content {
-    padding: 1.5rem;
+    grid-area: main;
+    padding: 2rem 3rem 4rem;
+    margin-left: 0;
+    /* Grid handles positioning */
+  }
+
+  .hamburger-btn {
+    display: none;
   }
 }
 

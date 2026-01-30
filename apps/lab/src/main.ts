@@ -79,15 +79,25 @@ async function init() {
       <div class="logo">
         <a href="/">LuckyFields.Lab</a>
       </div>
-      <div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
         <select id="lang-select">
           ${settings.available_langs.map(l => `<option value="${l}" ${l === lang ? 'selected' : ''}>${l.toUpperCase()}</option>`).join('')}
         </select>
+        <button class="hamburger-btn" id="menu-btn" aria-label="Menu">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </button>
       </div>
     </header>
     
+    <div id="drawer-overlay"></div>
+    <aside id="drawer">
+        <!-- Mobile Navigation -->
+    </aside>
+
     <aside class="sidebar" id="sidebar">
-      <!-- Navigation Items will be injected here -->
+      <!-- Desktop Navigation -->
     </aside>
 
     <main id="content">
@@ -102,6 +112,9 @@ async function init() {
 
   const dynamicView = document.getElementById('dynamic-view')!;
   const sidebar = document.getElementById('sidebar')!;
+  const drawer = document.getElementById('drawer')!;
+  const drawerOverlay = document.getElementById('drawer-overlay')!;
+  const menuBtn = document.getElementById('menu-btn')!;
   const langSelect = document.getElementById('lang-select') as HTMLSelectElement;
 
   if (langSelect) {
@@ -110,6 +123,17 @@ async function init() {
       localStorage.setItem('preferred_lang', newLang);
       window.location.reload();
     });
+  }
+
+  // Mobile Menu Toggle Logic
+  if (menuBtn && drawer && drawerOverlay) {
+    const toggleMenu = () => {
+      drawer.classList.toggle('active');
+      drawerOverlay.classList.toggle('active');
+    };
+
+    menuBtn.addEventListener('click', toggleMenu);
+    drawerOverlay.addEventListener('click', toggleMenu);
   }
 
   let currentLang = lang;
@@ -126,19 +150,36 @@ async function init() {
   ];
 
   function renderSidebar() {
-    sidebar.innerHTML = menuItems.map(item => `
+    const html = menuItems.map(item => `
       <div class="nav-item ${currentFilter === item.id ? 'active' : ''}" data-id="${item.id}">
         <span class="nav-icon">${item.icon}</span>
         <span>${item.label}</span>
       </div>
     `).join('');
 
-    sidebar.querySelectorAll('.nav-item').forEach(el => {
-      el.addEventListener('click', () => {
-        const id = el.getAttribute('data-id')!;
-        currentFilter = id;
-        renderUI();
-        renderSidebar();
+    sidebar.innerHTML = html;
+
+    // Also render drawer content
+    drawer.innerHTML = `
+      <div style="font-weight: 800; font-size: 1.25rem; margin-bottom: 2rem; padding: 0 1rem;">Menu</div>
+      ${html}
+    `;
+
+    // Attach Event Listeners to both Sidebar and Drawer items
+    [sidebar, drawer].forEach(container => {
+      container.querySelectorAll('.nav-item').forEach(el => {
+        el.addEventListener('click', () => {
+          const id = el.getAttribute('data-id')!;
+          currentFilter = id;
+          renderUI();
+          renderSidebar(); // Update active state
+
+          // Close drawer on mobile selection
+          if (container === drawer) {
+            drawer.classList.remove('active');
+            drawerOverlay.classList.remove('active');
+          }
+        });
       });
     });
   }
