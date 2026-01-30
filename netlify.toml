@@ -7,20 +7,19 @@
 [build.environment]
   # Pin Node version used by Netlify build image.
   NODE_VERSION = "20"
-  # Ensure optional deps (like @rollup/rollup-<platform>) are installed.
+  # Ensure optional deps are installed.
   NPM_CONFIG_OPTIONAL = "true"
-  # Keep default flags lean but DO NOT omit optional deps.
+  # Keep default flags lean.
   NPM_FLAGS = "--no-audit --progress=false"
 
+[functions]
   # Use esbuild for functions bundling to avoid rollup dependency.
   node_bundler = "esbuild"
   included_files = ["data/*.json"]
 
-# Optional: local dev hints; cloud deploy ignores this.
+# Optional: local dev hints.
 [dev]
   framework = "#static"
-  publish = "docs"
+  publish = "apps/lab/dist"
   functions = "netlify/functions"
   autoLaunch = false
-
-# Redirects - Not used for root landing page
