@@ -1,14 +1,18 @@
 :root {
   --font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-  --bg-color: #08090a;
-  --text-color: #f1f5f9;
+  --bg-color: #f8fafc;
+  /* Slate 50 */
+  --text-color: #334155;
+  /* Slate 700 */
   --accent-color: #3b82f6;
+  /* Blue 500 */
   --accent-glow: #3b82f633;
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --secondary-text: #94a3b8;
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-border: rgba(255, 255, 255, 0.8);
+  --secondary-text: #64748b;
+  /* Slate 500 */
   --header-height: 80px;
-  --glass-bg: rgba(8, 9, 10, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.7);
   --grad-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
 }
 
@@ -65,7 +69,7 @@ header {
 }
 
 #lang-select {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.4);
   border: 1px solid var(--card-border);
   color: var(--text-color);
   padding: 0.5rem 1rem;
@@ -108,13 +112,13 @@ h3 {
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.03);
   color: var(--text-color);
 }
 
 .nav-item.active {
   background: rgba(59, 130, 246, 0.1);
-  color: #fff;
+  color: var(--accent-color);
   border-color: rgba(59, 130, 246, 0.2);
 }
 
@@ -138,7 +142,7 @@ footer {
   text-align: center;
   color: var(--secondary-text);
   font-size: 0.875rem;
-  background: rgba(8, 9, 10, 0.6);
+  background: var(--glass-bg);
   width: 100%;
 }
 
@@ -189,7 +193,8 @@ footer {
   left: 0;
   width: 280px;
   height: 100%;
-  background: var(--bg-color);
+  background: #fff;
+  /* Solid white for drawer */
   z-index: 1100;
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -198,6 +203,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
 }
 
 #drawer.active {
@@ -214,9 +220,7 @@ footer {
     grid-template-columns: 280px 1fr;
     grid-template-rows: 1fr auto;
     padding-top: var(--header-height);
-    /* Space for fixed header */
     padding-bottom: 70px;
-    /* Space for fixed footer */
   }
 
   header {
@@ -240,15 +244,13 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    background: rgba(8, 9, 10, 0.4);
+    background: rgba(255, 255, 255, 0.4);
     border-right: 1px solid var(--card-border);
     padding: 2rem 1.5rem;
     position: fixed;
     top: 79px;
-    /* adjust for heade border */
     left: 0;
     height: calc(100vh - 80px - 70px);
-    /* Height minus header and footer */
     overflow-y: auto;
     width: 280px;
   }
@@ -257,7 +259,6 @@ footer {
     grid-area: main;
     padding: 2rem 3rem 4rem;
     margin-left: 0;
-    /* Grid handles positioning */
   }
 
   .hamburger-btn {
@@ -284,19 +285,21 @@ footer {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
 .card:hover {
   transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.8);
   border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow);
+  box-shadow: 0 20px 40px -20px rgba(59, 130, 246, 0.15), 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
 .card h3 {
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
-  color: #fff;
+  color: var(--text-color);
+  /* Changed from #fff */
 }
 
 .card p {
@@ -308,25 +311,26 @@ footer {
 
 .tag {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.05);
-  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--secondary-text);
   padding: 4px 10px;
   border-radius: 99px;
   font-size: 0.75rem;
   font-weight: 500;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
 }
 
 .featured-section {
   position: relative;
   padding: 3rem;
   border-radius: 24px;
-  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent 70%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(240, 249, 255, 0.6) 100%);
   border: 1px solid rgba(59, 130, 246, 0.2);
   margin-bottom: 4rem;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.05);
 }
 
 .featured-section::before {
@@ -336,7 +340,8 @@ footer {
   right: 1.5rem;
   font-size: 5rem;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.02);
+  color: rgba(59, 130, 246, 0.03);
+  /* Changed to subtle blue */
   pointer-events: none;
 }
 
@@ -353,7 +358,7 @@ footer {
   gap: 0.75rem;
   margin-bottom: 3rem;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 99px;
   width: fit-content;
   border: 1px solid var(--card-border);
@@ -373,8 +378,8 @@ footer {
 
 .filter-btn.active {
   background: #fff;
-  color: #000;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .persona-label {
@@ -392,7 +397,7 @@ footer {
 }
 
 .feed-card:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.6);
   padding-left: 2rem;
 }
 
@@ -408,7 +413,8 @@ footer {
   font-weight: 700;
   font-size: 1.125rem;
   margin-bottom: 0.5rem;
-  color: #fff;
+  color: var(--text-color);
+  /* Changed from #fff */
 }
 
 .feed-summary {
@@ -426,10 +432,10 @@ footer {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--card-border);
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: #94a3b8;
 }
