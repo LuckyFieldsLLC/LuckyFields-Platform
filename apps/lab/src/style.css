@@ -29,26 +29,30 @@ body {
 }
 
 /* Layout Structure */
+/* Layout Structure */
 #app {
   display: grid;
   grid-template-areas:
-    "header header"
     "sidebar main"
     "footer footer";
   grid-template-columns: 280px 1fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: 1fr auto;
   min-height: 100vh;
   max-width: 100%;
   margin: 0;
   padding: 0;
+  padding-top: var(--header-height);
+  /* Space for fixed header */
 }
 
 /* Header */
 header {
-  grid-area: header;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
   height: var(--header-height);
   display: flex;
   align-items: center;
