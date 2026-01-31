@@ -34,11 +34,11 @@ export default function AdminPage() {
     if (!config) return <div style={{ padding: '2rem' }}>{t('ui.loading')}</div>;
 
     const features = [
-        { id: 'isInteractiveMode', label: t('ui.help.isInteractiveMode') ? 'Interactive Experience' : 'Interactive' },
-        { id: 'showZodiac', label: '12 Signs Indicator' },
-        { id: 'showParticles', label: 'Particle System' },
-        { id: 'showNews', label: 'News Feed' },
-        { id: 'isGyroEnabled', label: 'Gyroscope' }
+        { id: 'isInteractiveMode', label: t('ui.admin.features.interactive') },
+        { id: 'showZodiac', label: t('ui.admin.features.zodiac') },
+        { id: 'showParticles', label: t('ui.admin.features.particles') },
+        { id: 'showNews', label: t('ui.admin.features.news') },
+        { id: 'isGyroEnabled', label: t('ui.admin.features.gyro') }
     ];
 
     return (
@@ -57,7 +57,7 @@ export default function AdminPage() {
                         fontWeight: 'bold'
                     }}
                 >
-                    {showHelp ? '✕ Close Help' : '❓ UI Help'}
+                    {showHelp ? t('ui.admin.close_help') : t('ui.admin.show_help')}
                 </button>
             </div>
 
@@ -80,7 +80,7 @@ export default function AdminPage() {
                 {/* Left Column: UI Features */}
                 <div style={{ display: 'grid', gap: '2rem' }}>
                     <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Feature Toggles</h3>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>{t('ui.admin.feature_toggles')}</h3>
                         <div style={{ display: 'grid', gap: '1.25rem' }}>
                             {features.map(f => (
                                 <div key={f.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -99,7 +99,7 @@ export default function AdminPage() {
                                                 fontWeight: 'bold'
                                             }}
                                         >
-                                            {config[f.id as keyof SiteConfig] ? 'ON' : 'OFF'}
+                                            {config[f.id as keyof SiteConfig] ? t('ui.admin.status_on') : t('ui.admin.status_off')}
                                         </button>
                                     </div>
                                     {showHelp && (
@@ -116,11 +116,11 @@ export default function AdminPage() {
                 {/* Right Column: Visual Identity & Atmosphere */}
                 <div style={{ display: 'grid', gap: '2rem' }}>
                     <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Visual Identity</h3>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>{t('ui.admin.visual_identity')}</h3>
 
                         <div style={{ display: 'grid', gap: '1.5rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>Primary Brand Color</span>
+                                <span>{t('ui.admin.primary_color')}</span>
                                 <input
                                     type="color"
                                     value={config.primaryColor}
@@ -129,7 +129,7 @@ export default function AdminPage() {
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>Aura Color (Ambient)</span>
+                                <span>{t('ui.admin.aura_color')}</span>
                                 <input
                                     type="color"
                                     value={config.themeColor}
@@ -139,7 +139,7 @@ export default function AdminPage() {
 
                             <div style={{ display: 'grid', gap: '0.5rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <span>Glass Opacity</span>
+                                    <span>{t('ui.admin.glass_opacity')}</span>
                                     <span>{Math.round(config.bgOpacity * 100)}%</span>
                                 </div>
                                 <input
@@ -151,7 +151,7 @@ export default function AdminPage() {
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>Theme Mode</span>
+                                <span>{t('ui.admin.theme_mode')}</span>
                                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                                     {['light', 'dark'].map(m => (
                                         <button
@@ -176,17 +176,17 @@ export default function AdminPage() {
                     </section>
 
                     <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Atmosphere</h3>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>{t('ui.admin.atmosphere')}</h3>
                         <div style={{ display: 'grid', gap: '1rem' }}>
-                            <span>Spirit Event Mode</span>
+                            <span>{t('ui.admin.spirit_mode')}</span>
                             <select
                                 value={config.activeEvent}
                                 onChange={e => saveConfig({ ...config, activeEvent: e.target.value })}
                                 style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none' }}
                             >
-                                <option value="Normal">Normal</option>
-                                <option value="Blessing">Blessing</option>
-                                <option value="Event">Event</option>
+                                <option value="Normal">{t('ui.admin.event_normal')}</option>
+                                <option value="Blessing">{t('ui.admin.event_blessing')}</option>
+                                <option value="Event">{t('ui.admin.event_special')}</option>
                             </select>
                             {showHelp && (
                                 <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
@@ -205,12 +205,12 @@ export default function AdminPage() {
                     padding: '0.75rem 1.5rem', borderRadius: '30px', fontWeight: 'bold',
                     boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
                 }}>
-                    Saving changes...
+                    {t('ui.admin.saving')}
                 </div>
             )}
 
             <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-                <a href="/admin/dashboard" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '0.875rem' }}>← Go to Dashboard UI</a>
+                <a href="/admin/dashboard" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '0.875rem' }}>{t('ui.admin.back_to_dashboard')}</a>
             </div>
         </main>
     );

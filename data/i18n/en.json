@@ -1,5 +1,6 @@
 {
     "ui": {
+        "home": "HOME",
         "featured": "Featured Projects",
         "visit_site": "Visit Site",
         "view_github": "View GitHub",

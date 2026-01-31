@@ -1,5 +1,6 @@
 {
     "ui": {
+        "home": "ホーム",
         "featured": "注目プロジェクト",
         "visit_site": "サイトを見る",
         "view_github": "GitHubを表示",
