@@ -32,43 +32,61 @@ export default function AdminDashboard() {
     ];
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <header style={{ padding: '1rem 2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="logo" style={{ fontWeight: '800', fontSize: '1.25rem' }}>LuckyFields.Lab Admin</div>
-                <select value={lang} onChange={(e) => { setLang(e.target.value); localStorage.setItem('preferred_lang', e.target.value); window.location.reload(); }}>
-                    {data.settings?.available_langs.map(l => <option key={l} value={l}>{l.toUpperCase()}</option>)}
-                </select>
+        <>
+            <header>
+                <div className="logo">
+                    <a href="/">LuckyFields.Lab Admin</a>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <select
+                        id="lang-select"
+                        value={lang}
+                        onChange={(e) => {
+                            setLang(e.target.value);
+                            localStorage.setItem('preferred_lang', e.target.value);
+                            window.location.reload();
+                        }}
+                    >
+                        {data.settings?.available_langs.map(l => <option key={l} value={l}>{l.toUpperCase()}</option>)}
+                    </select>
+                </div>
             </header>
 
-            <div style={{ display: 'flex', flex: 1 }}>
-                <aside className="sidebar" style={{ width: '250px', borderRight: '1px solid rgba(255,255,255,0.1)', padding: '1rem' }}>
-                    {menuItems.map(item => (
-                        <div
-                            key={item.id}
-                            className={`nav-item ${currentFilter === item.id ? 'active' : ''}`}
-                            onClick={() => setCurrentFilter(item.id)}
-                            style={{ padding: '0.75rem 1rem', cursor: 'pointer', borderRadius: '8px', marginBottom: '0.5rem', background: currentFilter === item.id ? 'rgba(255,255,255,0.05)' : 'transparent' }}
-                        >
-                            <span className="nav-icon" style={{ marginRight: '0.75rem' }}>{item.icon}</span>
-                            <span>{item.label}</span>
-                        </div>
-                    ))}
-                </aside>
+            <aside className="sidebar" id="sidebar">
+                {menuItems.map(item => (
+                    <div
+                        key={item.id}
+                        className={`nav-item ${currentFilter === item.id ? 'active' : ''}`}
+                        onClick={() => setCurrentFilter(item.id)}
+                    >
+                        <span className="nav-icon">{item.icon}</span>
+                        <span>{item.label}</span>
+                    </div>
+                ))}
+            </aside>
 
-                <main style={{ flex: 1, padding: '2rem' }}>
-                    <h2>{menuItems.find(m => m.id === currentFilter)?.label}</h2>
-                    <div className="grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
+            <main id="content">
+                <div id="dynamic-view">
+                    <h2 className="category-title">{menuItems.find(m => m.id === currentFilter)?.label}</h2>
+                    <div className="grid">
                         {data.projects
                             .filter(p => currentFilter === 'all' ? p.featured : (currentFilter === 'projects' ? true : p.category === currentFilter))
                             .map(p => (
-                                <div key={p.id} className="card" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: '12px' }}>
+                                <div key={p.id} className="card">
+                                    <div style={{ marginBottom: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+                                        {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
+                                    </div>
                                     <h3>{p.title}</h3>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', margin: '1rem 0' }}>{p.description[lang] || p.description['ja']}</p>
+                                    <p>{p.description[lang] || p.description['ja']}</p>
                                 </div>
                             ))}
                     </div>
-                </main>
-            </div>
-        </div>
+                </div>
+            </main>
+
+            <footer>
+                <p>© 2026 LuckyFields.LLC - All Rights Reserved.</p>
+            </footer>
+        </>
     );
 }
