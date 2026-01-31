@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useConfig } from '@/components/ConfigProvider';
 import { SiteConfig } from '../../../../../types/siteConfig';
 
 export default function AdminPage() {
-    const { t } = useConfig();
-    const [config, setConfig] = useState<SiteConfig | null>(null);
+    const { t, config, setConfig } = useConfig();
     const [saving, setSaving] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
         fetch('/api/admin/config')
             .then(r => r.json())
             .then(setConfig);
-    }, []);
+    }, [setConfig]);
 
     const saveConfig = async (newConfig: SiteConfig) => {
         setSaving(true);
@@ -31,116 +31,183 @@ export default function AdminPage() {
         }
     };
 
-    if (!config) return <div style={{ padding: '2rem' }}>{t('ui.loading') || 'Loading settings...'}</div>;
+    if (!config) return <div style={{ padding: '2rem' }}>{t('ui.loading')}</div>;
+
+    const features = [
+        { id: 'isInteractiveMode', label: t('ui.help.isInteractiveMode') ? 'Interactive Experience' : 'Interactive' },
+        { id: 'showZodiac', label: '12 Signs Indicator' },
+        { id: 'showParticles', label: 'Particle System' },
+        { id: 'showNews', label: 'News Feed' },
+        { id: 'isGyroEnabled', label: 'Gyroscope' }
+    ];
 
     return (
-        <main style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '2rem' }}>{t('ui.admin_panel') || 'Admin Control Panel'}</h1>
-
-            <div style={{ display: 'grid', gap: '2rem', background: 'rgba(255,255,255,0.03)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
-
-                {/* Gyroscope Toggle */}
-                <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h3 style={{ margin: 0 }}>{t('ui.gyro_title') || 'Gyroscope Interaction'}</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.gyro_desc') || 'Enable/Disable mobile gyro effects'}</p>
-                    </div>
-                    <button
-                        onClick={() => saveConfig({ ...config, isGyroEnabled: !config.isGyroEnabled })}
-                        style={{
-                            padding: '0.5rem 1.5rem',
-                            borderRadius: '20px',
-                            border: 'none',
-                            background: config.isGyroEnabled ? '#10b981' : 'rgba(255,255,255,0.1)',
-                            color: 'white',
-                            cursor: 'pointer',
-                            fontWeight: '600',
-                            transition: 'background 0.2s'
-                        }}
-                    >
-                        {config.isGyroEnabled ? 'ON' : 'OFF'}
-                    </button>
-                </section>
-
-                {/* Color Picker */}
-                <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h3 style={{ margin: 0 }}>{t('ui.theme_color_title') || 'Background Aura Color'}</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.theme_color_desc') || 'Select the primary ambient color'}</p>
-                    </div>
-                    <input
-                        type="color"
-                        value={config.themeColor}
-                        onChange={(e) => saveConfig({ ...config, themeColor: e.target.value })}
-                        style={{ width: '60px', height: '40px', border: 'none', background: 'none', cursor: 'pointer' }}
-                    />
-                </section>
-
-                {/* Spirit Mode Select */}
-                <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h3 style={{ margin: 0 }}>{t('ui.spirit_mode_title') || 'Current Spirit Mode'}</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.spirit_mode_desc') || 'Change the atmosphere intensity'}</p>
-                    </div>
-                    <select
-                        value={config.activeEvent}
-                        onChange={(e) => saveConfig({ ...config, activeEvent: e.target.value })}
-                        style={{
-                            padding: '0.5rem 1rem',
-                            borderRadius: '8px',
-                            background: 'rgba(255,255,255,0.1)',
-                            color: 'white',
-                            border: '1px solid rgba(255,255,255,0.2)',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        <option value="Normal">Normal</option>
-                        <option value="Blessing">Blessing</option>
-                        <option value="Event">Event</option>
-                    </select>
-                </section>
-
-                {/* Theme Mode Toggle */}
-                <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <h3 style={{ margin: 0 }}>Theme Mode</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>Switch between Light and Dark interface</p>
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <button
-                            onClick={() => saveConfig({ ...config, themeMode: 'light' })}
-                            style={{
-                                padding: '0.5rem 1rem',
-                                borderRadius: '8px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                background: config.themeMode === 'light' ? '#fff' : 'rgba(255,255,255,0.05)',
-                                color: config.themeMode === 'light' ? '#000' : '#fff',
-                                cursor: 'pointer',
-                                fontWeight: '600'
-                            }}
-                        >
-                            LIGHT
-                        </button>
-                        <button
-                            onClick={() => saveConfig({ ...config, themeMode: 'dark' })}
-                            style={{
-                                padding: '0.5rem 1rem',
-                                borderRadius: '8px',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                background: config.themeMode === 'dark' ? '#334155' : 'rgba(255,255,255,0.05)',
-                                color: '#fff',
-                                cursor: 'pointer',
-                                fontWeight: '600'
-                            }}
-                        >
-                            DARK
-                        </button>
-                    </div>
-                </section>
-
+        <main style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                <h1 style={{ fontSize: '2rem', fontWeight: '800', margin: 0 }}>{t('ui.admin_panel')}</h1>
+                <button
+                    onClick={() => setShowHelp(!showHelp)}
+                    style={{
+                        padding: '0.5rem 1rem',
+                        borderRadius: '20px',
+                        background: showHelp ? 'var(--primary-color)' : 'rgba(255,255,255,0.1)',
+                        border: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        fontWeight: 'bold'
+                    }}
+                >
+                    {showHelp ? '✕ Close Help' : '❓ UI Help'}
+                </button>
             </div>
 
-            {saving && <p style={{ marginTop: '1rem', color: '#3b82f6', textAlign: 'center' }}>Updating configuration...</p>}
+            {showHelp && (
+                <div style={{
+                    background: 'rgba(59, 130, 246, 0.1)',
+                    border: '1px solid var(--primary-color)',
+                    padding: '1.5rem',
+                    borderRadius: '12px',
+                    marginBottom: '2rem',
+                    lineHeight: '1.6'
+                }}>
+                    <h3 style={{ marginTop: 0 }}>{t('ui.about_advanced_settings')}</h3>
+                    <p>{t('ui.advanced_settings_help')}</p>
+                </div>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+
+                {/* Left Column: UI Features */}
+                <div style={{ display: 'grid', gap: '2rem' }}>
+                    <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Feature Toggles</h3>
+                        <div style={{ display: 'grid', gap: '1.25rem' }}>
+                            {features.map(f => (
+                                <div key={f.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span style={{ fontWeight: '600' }}>{f.label}</span>
+                                        <button
+                                            onClick={() => saveConfig({ ...config, [f.id]: !config[f.id as keyof SiteConfig] })}
+                                            style={{
+                                                padding: '0.4rem 1rem',
+                                                borderRadius: '15px',
+                                                border: 'none',
+                                                background: config[f.id as keyof SiteConfig] ? '#10b981' : 'rgba(255,255,255,0.1)',
+                                                color: 'white',
+                                                cursor: 'pointer',
+                                                fontSize: '0.75rem',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            {config[f.id as keyof SiteConfig] ? 'ON' : 'OFF'}
+                                        </button>
+                                    </div>
+                                    {showHelp && (
+                                        <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontStyle: 'italic' }}>
+                                            💡 {t(`ui.help.${f.id}`)}
+                                        </p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+
+                {/* Right Column: Visual Identity & Atmosphere */}
+                <div style={{ display: 'grid', gap: '2rem' }}>
+                    <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Visual Identity</h3>
+
+                        <div style={{ display: 'grid', gap: '1.5rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>Primary Brand Color</span>
+                                <input
+                                    type="color"
+                                    value={config.primaryColor}
+                                    onChange={e => saveConfig({ ...config, primaryColor: e.target.value })}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>Aura Color (Ambient)</span>
+                                <input
+                                    type="color"
+                                    value={config.themeColor}
+                                    onChange={e => saveConfig({ ...config, themeColor: e.target.value })}
+                                />
+                            </div>
+
+                            <div style={{ display: 'grid', gap: '0.5rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span>Glass Opacity</span>
+                                    <span>{Math.round(config.bgOpacity * 100)}%</span>
+                                </div>
+                                <input
+                                    type="range" min="0" max="1" step="0.05"
+                                    value={config.bgOpacity}
+                                    onChange={e => saveConfig({ ...config, bgOpacity: parseFloat(e.target.value) })}
+                                    style={{ width: '100%' }}
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>Theme Mode</span>
+                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                    {['light', 'dark'].map(m => (
+                                        <button
+                                            key={m}
+                                            onClick={() => saveConfig({ ...config, themeMode: m as any })}
+                                            style={{
+                                                padding: '0.3rem 0.6rem',
+                                                borderRadius: '4px',
+                                                border: '1px solid rgba(255,255,255,0.1)',
+                                                background: config.themeMode === m ? 'white' : 'transparent',
+                                                color: config.themeMode === m ? 'black' : 'white',
+                                                cursor: 'pointer',
+                                                fontSize: '0.7rem'
+                                            }}
+                                        >
+                                            {m.toUpperCase()}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>Atmosphere</h3>
+                        <div style={{ display: 'grid', gap: '1rem' }}>
+                            <span>Spirit Event Mode</span>
+                            <select
+                                value={config.activeEvent}
+                                onChange={e => saveConfig({ ...config, activeEvent: e.target.value })}
+                                style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none' }}
+                            >
+                                <option value="Normal">Normal</option>
+                                <option value="Blessing">Blessing</option>
+                                <option value="Event">Event</option>
+                            </select>
+                            {showHelp && (
+                                <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
+                                    💡 {t('ui.spirit_mode_desc')}
+                                </p>
+                            )}
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            {saving && (
+                <div style={{
+                    position: 'fixed', bottom: '2rem', right: '2rem',
+                    background: 'var(--primary-color)', color: 'white',
+                    padding: '0.75rem 1.5rem', borderRadius: '30px', fontWeight: 'bold',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                }}>
+                    Saving changes...
+                </div>
+            )}
 
             <div style={{ marginTop: '2rem', textAlign: 'center' }}>
                 <a href="/admin/dashboard" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none', fontSize: '0.875rem' }}>← Go to Dashboard UI</a>

@@ -20,6 +20,15 @@
         "theme_color_desc": "Select the primary ambient color",
         "spirit_mode_title": "Current Spirit Mode",
         "spirit_mode_desc": "Change the atmosphere intensity",
+        "about_advanced_settings": "About Advanced Settings",
+        "advanced_settings_help": "This panel allows you to fine-tune the interactive elements and visual identity of your site. You can toggle special effects (spirits, constellations) and customize brand colors.",
+        "help": {
+            "isInteractiveMode": "Enables dynamic background effects like spirits and constellations. Best for creative storytelling.",
+            "showZodiac": "Displays 12 signs of the zodiac in the background. Only works when Interactive Mode is ON.",
+            "showParticles": "Adds floating light particles to the background for a more mystical atmosphere.",
+            "showNews": "Toggles the GitHub-powered activity section on the home page.",
+            "isGyroEnabled": "Enables parallax motion based on mobile device orientation."
+        },
         "hub_description": "Welcome to the unified creator hub. Explore our projects, media, and experiments.",
         "coming_soon_description": "LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.",
         "categories": {
