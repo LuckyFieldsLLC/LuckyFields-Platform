@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { SiteConfig } from '../../../../types/siteConfig';
+import { useConfig } from './ConfigProvider';
 
 interface SiteSettings { site_name: string; default_lang: string; available_langs: string[]; }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+    const { config } = useConfig();
     const [lang, setLang] = useState('ja');
     const [settings, setSettings] = useState<SiteSettings | null>(null);
-    const [config, setConfig] = useState<SiteConfig | null>(null);
     const pathname = usePathname();
 
     useEffect(() => {
@@ -20,11 +20,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 setSettings(s);
                 setLang(localStorage.getItem('preferred_lang') || s.default_lang);
             });
-
-        // Fetch dynamic config (including themeMode)
-        fetch('/api/admin/config')
-            .then(r => r.json())
-            .then(setConfig);
     }, []);
 
     const menuItems = [
@@ -43,8 +38,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     const themeClass = config?.themeMode === 'dark' ? 'theme-dark' : 'theme-light';
 
+    const dynamicStyles = {
+        '--primary-color': config?.primaryColor || '#3b82f6',
+        '--glass-opacity': config?.bgOpacity ?? 0.7,
+    } as React.CSSProperties;
+
     return (
-        <div className={themeClass} style={{ display: 'contents' }}>
+        <div className={themeClass} style={{ ...dynamicStyles, display: 'contents' }}>
             <header>
                 <div className="logo">
                     <a href="/">LuckyFields.Lab</a>

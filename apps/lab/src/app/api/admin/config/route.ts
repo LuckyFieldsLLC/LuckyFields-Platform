@@ -11,7 +11,13 @@ export async function GET() {
             isGyroEnabled: false,
             themeColor: '#3b82f6',
             activeEvent: 'Normal',
-            themeMode: 'light'
+            themeMode: 'light',
+            showZodiac: false,
+            showParticles: false,
+            showNews: true,
+            primaryColor: '#3b82f6',
+            bgOpacity: 0.7,
+            isInteractiveMode: false
         };
 
         return NextResponse.json(config || defaultConfig);

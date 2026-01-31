@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
+import { ConfigProvider } from "@/components/ConfigProvider";
 
 export const metadata: Metadata = {
-    title: "LuckyFields.Lab",
-    description: "Unified hub for LuckyFields.LLC creative output",
+    title: "LuckyFields.Lab | Interactive Creator Hub",
+    description: "Exploring the intersection of creativity, AI, and interactive experiences. Join the LuckyFields evolution.",
 };
 
 export default function RootLayout({
@@ -15,11 +16,13 @@ export default function RootLayout({
     return (
         <html lang="ja">
             <body>
-                <div id="app">
-                    <AppShell>
-                        {children}
-                    </AppShell>
-                </div>
+                <ConfigProvider>
+                    <div id="app">
+                        <AppShell>
+                            {children}
+                        </AppShell>
+                    </div>
+                </ConfigProvider>
             </body>
         </html>
     );
