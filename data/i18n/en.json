@@ -36,6 +36,15 @@
             "Applications": "Applications",
             "Creative AI": "Creative AI",
             "Media": "Media / Posts"
+        },
+        "admin": {
+            "login_title": "Admin Login",
+            "login_desc": "Enter password to enable Customization Mode",
+            "password": "Password",
+            "login_button": "Authenticate",
+            "invalid_password": "Invalid password",
+            "customization_mode": "✨ Customization Mode Active",
+            "logout_button": "Logout"
         }
     }
 }

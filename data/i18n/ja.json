@@ -36,6 +36,15 @@
             "Applications": "アプリケーション",
             "Creative AI": "クリエイティブ AI",
             "Media": "メディア / 発信"
+        },
+        "admin": {
+            "login_title": "管理者ログイン",
+            "login_desc": "カスタマイズモードを有効にするためのパスワードを入力してください",
+            "password": "パスワード",
+            "login_button": "認証して開始",
+            "invalid_password": "パスワードが正しくありません",
+            "customization_mode": "✨ カスタマイズモード実行中",
+            "logout_button": "ログアウト"
         }
     }
 }
