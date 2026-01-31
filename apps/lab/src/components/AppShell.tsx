@@ -7,7 +7,7 @@ import { useConfig } from './ConfigProvider';
 interface SiteSettings { site_name: string; default_lang: string; available_langs: string[]; }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-    const { config, lang, setLang, t } = useConfig();
+    const { config, lang, setLang, t, isLoggedIn, logout } = useConfig();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
     const pathname = usePathname();
 
@@ -24,13 +24,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
     const menuItems = [
         { id: 'home', label: t('ui.home'), icon: '🏠', href: '/' },
-        ...(isAdminPath ? [
+        ...(isLoggedIn ? [
             { id: 'all', label: t('ui.dashboard'), icon: '📊', href: '/admin/dashboard' },
             { id: 'projects', label: t('ui.projects'), icon: '📂', href: '/admin/dashboard?filter=projects' },
             { id: 'Applications', label: t('ui.categories.Applications'), icon: '📱', href: '/admin/dashboard?filter=Applications' },
             { id: 'Media', label: t('ui.categories.Media'), icon: '🎬', href: '/admin/dashboard?filter=Media' },
             { id: 'Creative AI', label: t('ui.categories.Creative AI'), icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
-        ] : [])
+        ] : []),
+        { id: 'contact', label: t('ui.contact_us'), icon: '📧', href: '#contact' }
     ];
 
     const handleLangChange = (newLang: string) => {
@@ -63,7 +64,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <header>
                 <div className="logo">
                     <a href="/">LuckyFields.Lab</a>
-                    <a href="/admin" style={{
+                    <a href="/admin/login" style={{
                         opacity: 0,
                         fontSize: '0.8rem',
                         marginLeft: '2px',
@@ -73,6 +74,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     }}>@</a>
                 </div>
                 <div id="header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {isLoggedIn && (
+                        <span style={{ fontSize: '0.75rem', color: 'var(--primary-color)', fontWeight: 'bold' }}>
+                            {t('ui.admin.customization_mode')}
+                        </span>
+                    )}
                     <select
                         id="lang-select"
                         value={lang}
@@ -86,16 +92,43 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </header>
 
             <aside className="sidebar" id="sidebar">
-                {menuItems.map(item => (
-                    <a
-                        key={item.id}
-                        href={item.href}
-                        className={`nav-item ${pathname === item.href || (pathname === '/admin/dashboard' && item.href.includes(item.id)) ? 'active' : ''}`}
-                    >
-                        <span className="nav-icon">{item.icon}</span>
-                        <span>{item.label}</span>
-                    </a>
-                ))}
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ flex: 1 }}>
+                        {menuItems.map(item => (
+                            <a
+                                key={item.id}
+                                href={item.href}
+                                className={`nav-item ${pathname === item.href || (pathname === '/admin/dashboard' && item.href.includes(item.id)) ? 'active' : ''}`}
+                            >
+                                <span className="nav-icon">{item.icon}</span>
+                                <span>{item.label}</span>
+                            </a>
+                        ))}
+                    </div>
+                    {isLoggedIn && (
+                        <div style={{ padding: '1rem', borderTop: '1px solid var(--card-border)' }}>
+                            <button
+                                onClick={() => logout()}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    borderRadius: '8px',
+                                    background: 'rgba(239, 68, 68, 0.1)',
+                                    color: '#ef4444',
+                                    border: '1px solid rgba(239, 68, 68, 0.2)',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '0.5rem'
+                                }}
+                            >
+                                🚪 {t('ui.admin.logout_button')}
+                            </button>
+                        </div>
+                    )}
+                </div>
             </aside>
 
             <main id="content">

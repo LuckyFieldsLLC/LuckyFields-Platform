@@ -16,11 +16,15 @@ const ConfigContext = createContext<{
     lang: string;
     setLang: (l: string) => void;
     t: (key: string) => any;
+    isLoggedIn: boolean;
+    login: (token: string) => void;
+    logout: () => void;
 } | undefined>(undefined);
 
 export function ConfigProvider({ children }: { children: React.ReactNode }) {
     const [config, setConfig] = useState<SiteConfig | null>(null);
     const [lang, setLangState] = useState('ja');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const refreshConfig = async () => {
         try {
@@ -38,6 +42,10 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
         if (dictionaries[savedLang]) {
             setLangState(savedLang);
         }
+        const token = localStorage.getItem('admin_session');
+        if (token) {
+            setIsLoggedIn(true);
+        }
     }, []);
 
     const setLang = (l: string) => {
@@ -45,6 +53,16 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
             setLangState(l);
             localStorage.setItem('preferred_lang', l);
         }
+    };
+
+    const login = (token: string) => {
+        localStorage.setItem('admin_session', token);
+        setIsLoggedIn(true);
+    };
+
+    const logout = () => {
+        localStorage.removeItem('admin_session');
+        setIsLoggedIn(false);
     };
 
     const t = useMemo(() => (path: string) => {
@@ -59,7 +77,7 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
     }, [lang]);
 
     return (
-        <ConfigContext.Provider value={{ config, setConfig, refreshConfig, lang, setLang, t }}>
+        <ConfigContext.Provider value={{ config, setConfig, refreshConfig, lang, setLang, t, isLoggedIn, login, logout }}>
             {children}
         </ConfigContext.Provider>
     );

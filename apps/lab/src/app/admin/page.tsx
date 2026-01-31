@@ -5,15 +5,29 @@ import { useConfig } from '@/components/ConfigProvider';
 import { SiteConfig } from '../../../../../types/siteConfig';
 
 export default function AdminPage() {
-    const { t, config, setConfig } = useConfig();
+    const { t, config, setConfig, isLoggedIn } = useConfig();
     const [saving, setSaving] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
 
     useEffect(() => {
-        fetch('/api/admin/config')
-            .then(r => r.json())
-            .then(setConfig);
-    }, [setConfig]);
+        if (isLoggedIn) {
+            fetch('/api/admin/config')
+                .then(r => r.json())
+                .then(setConfig);
+        }
+    }, [setConfig, isLoggedIn]);
+
+    if (!isLoggedIn) {
+        return (
+            <div style={{ padding: '4rem', textAlign: 'center' }}>
+                <h2>{t('ui.admin.login_title')}</h2>
+                <p>{t('ui.admin.login_desc')}</p>
+                <a href="/admin/login" style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>
+                    {t('ui.admin.login_button')} →
+                </a>
+            </div>
+        );
+    }
 
     const saveConfig = async (newConfig: SiteConfig) => {
         setSaving(true);

@@ -9,16 +9,27 @@ import AnalyticsChart from '@/components/AnalyticsChart';
 import { useConfig } from '@/components/ConfigProvider';
 
 function DashboardContent() {
-    const { lang } = useConfig();
+    const { lang, isLoggedIn, t } = useConfig();
     const [data, setData] = useState<{ projects: Project[] }>({ projects: [] });
     const searchParams = useSearchParams();
     const currentFilter = searchParams.get('filter') || 'all';
 
     useEffect(() => {
-        fetch('/projects.json')
-            .then(r => r.json())
-            .then(projects => setData({ projects }));
-    }, []);
+        if (isLoggedIn) {
+            fetch('/projects.json')
+                .then(r => r.json())
+                .then(projects => setData({ projects }));
+        }
+    }, [isLoggedIn]);
+
+    if (!isLoggedIn) {
+        return (
+            <div style={{ padding: '4rem', textAlign: 'center' }}>
+                <h2>{t('ui.admin.login_title')}</h2>
+                <a href="/admin/login" style={{ color: 'var(--primary-color)' }}>{t('ui.admin.login_button')}</a>
+            </div>
+        );
+    }
 
     return (
         <div id="dynamic-view">
@@ -26,7 +37,7 @@ function DashboardContent() {
                 <h2 className="category-title" style={{ margin: 0 }}>
                     {currentFilter.toUpperCase()}
                 </h2>
-                <a href="/admin/settings" style={{
+                <a href="/admin" style={{
                     padding: '0.5rem 1rem',
                     background: 'rgba(255,255,255,0.05)',
                     borderRadius: '8px',
@@ -36,7 +47,7 @@ function DashboardContent() {
                     fontWeight: 'bold',
                     border: '1px solid rgba(255,255,255,0.1)'
                 }}>
-                    ⚙️ Advanced Settings
+                    ⚙️ {t('ui.admin_panel')}
                 </a>
             </div>
 
