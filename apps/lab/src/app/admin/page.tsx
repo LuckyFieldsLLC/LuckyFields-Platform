@@ -5,7 +5,7 @@ import { useConfig } from '@/components/ConfigProvider';
 import { SiteConfig } from '../../../../../types/siteConfig';
 
 export default function AdminPage() {
-    const { t, config, setConfig, isLoggedIn } = useConfig();
+    const { t, config, setConfig, isLoggedIn, saveConfig } = useConfig() as any;
     const [saving, setSaving] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
 
@@ -29,21 +29,6 @@ export default function AdminPage() {
         );
     }
 
-    const saveConfig = async (newConfig: SiteConfig) => {
-        setSaving(true);
-        try {
-            const res = await fetch('/api/admin/config', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newConfig),
-            });
-            if (res.ok) {
-                setConfig(newConfig);
-            }
-        } finally {
-            setSaving(false);
-        }
-    };
 
     if (!config) return <div style={{ padding: '2rem' }}>{t('ui.loading')}</div>;
 
@@ -207,6 +192,58 @@ export default function AdminPage() {
                                     💡 {t('ui.spirit_mode_desc')}
                                 </p>
                             )}
+                        </div>
+                    </section>
+
+                    <section style={{ background: 'rgba(255,255,255,0.03)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', opacity: 0.7 }}>{t('ui.changelog')}</h3>
+                        <div style={{ display: 'grid', gap: '1rem' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '0.5rem' }}>
+                                <input
+                                    type="text"
+                                    id="new-date"
+                                    placeholder={t('ui.admin.date_placeholder')}
+                                    defaultValue={new Date().toISOString().split('T')[0].replace(/-/g, '/')}
+                                    style={{ padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none' }}
+                                />
+                                <input
+                                    type="text"
+                                    id="new-content"
+                                    placeholder={t('ui.admin.history_placeholder')}
+                                    style={{ padding: '0.5rem', borderRadius: '8px', background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none' }}
+                                />
+                            </div>
+                            <button
+                                onClick={() => {
+                                    const dateInput = document.getElementById('new-date') as HTMLInputElement;
+                                    const contentInput = document.getElementById('new-content') as HTMLInputElement;
+                                    if (dateInput.value && contentInput.value) {
+                                        const newEntry = { date: dateInput.value, content: contentInput.value };
+                                        saveConfig({ ...config, changelog: [newEntry, ...(config.changelog || [])] });
+                                        contentInput.value = '';
+                                    }
+                                }}
+                                style={{ padding: '0.5rem', borderRadius: '8px', background: 'var(--primary-color)', color: 'white', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}
+                            >
+                                {t('ui.admin.add_history')}
+                            </button>
+
+                            <div style={{ marginTop: '1rem', display: 'grid', gap: '0.5rem', maxHeight: '200px', overflowY: 'auto' }}>
+                                {config.changelog?.map((entry: any, i: number) => (
+                                    <div key={i} style={{ fontSize: '0.8rem', padding: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between' }}>
+                                        <span><strong>{entry.date}</strong>: {entry.content}</span>
+                                        <button
+                                            onClick={() => {
+                                                const newChangelog = config.changelog?.filter((_: any, idx: number) => idx !== i);
+                                                saveConfig({ ...config, changelog: newChangelog });
+                                            }}
+                                            style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '1rem' }}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </section>
                 </div>

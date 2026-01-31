@@ -65,6 +65,23 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
         setIsLoggedIn(false);
     };
 
+    const saveConfig = async (newConfig: SiteConfig) => {
+        try {
+            const res = await fetch('/api/admin/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newConfig),
+            });
+            if (res.ok) {
+                setConfig(newConfig);
+                return true;
+            }
+        } catch (e) {
+            console.error('Failed to save config', e);
+        }
+        return false;
+    };
+
     const t = useMemo(() => (path: string) => {
         const dict = dictionaries[lang] || dictionaries['ja'];
         const keys = path.split('.');
@@ -77,7 +94,7 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
     }, [lang]);
 
     return (
-        <ConfigContext.Provider value={{ config, setConfig, refreshConfig, lang, setLang, t, isLoggedIn, login, logout }}>
+        <ConfigContext.Provider value={{ config, setConfig, refreshConfig, lang, setLang, t, isLoggedIn, login, logout, saveConfig } as any}>
             {children}
         </ConfigContext.Provider>
     );

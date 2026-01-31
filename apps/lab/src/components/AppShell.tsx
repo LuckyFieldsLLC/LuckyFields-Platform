@@ -27,6 +27,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         { id: 'Applications', label: t('ui.categories.Applications'), icon: '📱', href: '/admin/dashboard?filter=Applications' },
         { id: 'Media', label: t('ui.categories.Media'), icon: '🎬', href: '/admin/dashboard?filter=Media' },
         { id: 'Creative AI', label: t('ui.categories.Creative AI'), icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
+        { id: 'about', label: t('ui.about'), icon: '📖', href: '/about' },
     ];
 
     const adminMenuItems = isLoggedIn ? [

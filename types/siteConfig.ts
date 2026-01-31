@@ -9,4 +9,6 @@ export type SiteConfig = {
     primaryColor: string;
     bgOpacity: number;
     isInteractiveMode: boolean;
+    aboutContent?: string;
+    changelog?: { date: string; content: string }[];
 };

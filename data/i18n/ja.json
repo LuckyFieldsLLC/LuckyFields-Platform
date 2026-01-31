@@ -10,6 +10,8 @@
         "activity": "最新の活動",
         "dashboard": "ダッシュボード",
         "projects": "プロジェクト",
+        "about": "このサイトについて",
+        "changelog": "サイト更新履歴",
         "contact_us": "お問い合わせ",
         "coming_soon": "近日公開",
         "loading": "設定を読み込み中...",
@@ -31,6 +33,8 @@
             "isGyroEnabled": "スマホなどの傾きに合わせて背景が動く演出を有効にします。"
         },
         "hub_description": "統一されたクリエイターハブへようこそ。プロジェクトやメディア、実験的な取り組みをご覧ください。",
+        "about_default": "LuckyFields.Lab は、LuckyFieldsLLCの創造的なアウトプットを統合するハブです。実験的なアプリケーションから、アート、AIの活用まで、多岐にわたる活動を記録しています。",
+        "no_changelog": "現在、表示できる更新履歴はありません。",
         "coming_soon_description": "LuckyFields.Lab は進化しています。新しい体験をお届けするまで、今しばらくお待ちください。",
         "categories": {
             "Applications": "アプリケーション",
@@ -62,6 +66,13 @@
             "event_blessing": "祝福モード (多め)",
             "event_special": "イベントモード (特別演出)",
             "back_to_dashboard": "← ダッシュボードへ戻る",
+            "edit_content": "内容を編集",
+            "add_history": "履歴を追加",
+            "save": "保存",
+            "cancel": "キャンセル",
+            "about_placeholder": "サイトの説明を入力してください...",
+            "history_placeholder": "更新内容を入力...",
+            "date_placeholder": "YYYY/MM/DD",
             "features": {
                 "interactive": "インタラクティブ演出",
                 "zodiac": "背景の12星座",

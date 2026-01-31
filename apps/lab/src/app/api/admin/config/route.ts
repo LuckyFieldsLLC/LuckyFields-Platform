@@ -17,7 +17,9 @@ export async function GET() {
             showNews: true,
             primaryColor: '#3b82f6',
             bgOpacity: 0.7,
-            isInteractiveMode: false
+            isInteractiveMode: false,
+            aboutContent: '',
+            changelog: []
         };
 
         return NextResponse.json(config || defaultConfig);
