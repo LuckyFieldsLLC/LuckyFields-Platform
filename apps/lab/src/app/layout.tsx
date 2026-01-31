@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
     title: "LuckyFields.Lab",
@@ -15,7 +16,9 @@ export default function RootLayout({
         <html lang="ja">
             <body>
                 <div id="app">
-                    {children}
+                    <AppShell>
+                        {children}
+                    </AppShell>
                 </div>
             </body>
         </html>

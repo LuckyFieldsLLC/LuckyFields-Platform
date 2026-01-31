@@ -2,7 +2,7 @@
 
 export default function Home() {
   return (
-    <main className="coming-soon-container">
+    <div className="coming-soon-content">
       <div className="glass-panel">
         <h1 className="gradient-text">
           Coming Soon:<br />Interactive Experience
@@ -20,18 +20,12 @@ export default function Home() {
       <a href="/admin" className="admin-link">Admin Access</a>
 
       <style jsx>{`
-        .coming-soon-container {
+        .coming-soon-content {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          height: 100vh;
-          width: 100vw;
-          position: fixed;
-          top: 0;
-          left: 0;
-          z-index: 10000;
-          background: #0f172a;
+          min-height: 60vh;
           text-align: center;
           padding: 2rem;
         }
@@ -43,11 +37,12 @@ export default function Home() {
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
           box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-          maxWidth: 600px;
+          max-width: 600px;
+          width: 100%;
         }
 
         .gradient-text {
-          font-size: 3.5rem;
+          font-size: 3rem;
           font-weight: 900;
           margin-bottom: 2rem;
           background: linear-gradient(135deg, #60a5fa, #a855f7);
@@ -88,8 +83,7 @@ export default function Home() {
         }
 
         .admin-link {
-          position: fixed;
-          bottom: 2rem;
+          margin-top: 3rem;
           color: rgba(255,255,255,0.2);
           text-decoration: none;
           font-size: 0.75rem;
@@ -99,17 +93,12 @@ export default function Home() {
         .admin-link:hover {
           color: rgba(255,255,255,0.6);
         }
-      `}</style>
 
-      <style jsx global>{`
-        /* Kill the global grid on this specific page */
-        #app { 
-          display: block !important; 
-          padding: 0 !important; 
-          grid-template-areas: none !important;
-          grid-template-columns: none !important;
+        @media (max-width: 768px) {
+          .gradient-text { font-size: 2.25rem; }
+          .glass-panel { padding: 2.5rem 1.5rem; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }
