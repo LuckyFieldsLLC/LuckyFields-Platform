@@ -1,7 +1,7 @@
 [build]
-  # Build apps/lab
+  # Build apps/lab (Next.js)
   command = "npm run build -w @luckyfields/lab"
-  publish = "apps/lab/dist"
+  publish = "apps/lab/.next"
   functions = "netlify/functions"
 
 [build.environment]
