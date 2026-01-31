@@ -1,13 +1,17 @@
 @import '../style.css';
 
-/* Additional Next.js specific resets if needed */
 :root {
-    --background: #0f172a;
-    --foreground: #f8fafc;
+    /* Respect style.css variables, but define Next.js specific ones if needed */
+    --background: #f8fafc;
+    --foreground: #334155;
 }
 
 body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+}
+
+/* Ensure #app doesn't break style.css grid */
+#app {
+    min-height: 100vh;
 }

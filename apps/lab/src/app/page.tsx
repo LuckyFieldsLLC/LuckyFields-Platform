@@ -33,10 +33,10 @@ export default function Home() {
         .glass-panel {
           padding: 4rem 3rem;
           border-radius: 32px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(59, 130, 246, 0.3);
           backdrop-filter: blur(20px);
-          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
           max-width: 600px;
           width: 100%;
         }
@@ -45,7 +45,7 @@ export default function Home() {
           font-size: 3rem;
           font-weight: 900;
           margin-bottom: 2rem;
-          background: linear-gradient(135deg, #60a5fa, #a855f7);
+          background: linear-gradient(135deg, #1d4ed8, #6d28d9);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           letter-spacing: -0.02em;
@@ -53,7 +53,7 @@ export default function Home() {
         }
 
         .description {
-          color: rgba(248, 250, 252, 0.6);
+          color: #334155;
           font-size: 1.125rem;
           line-height: 1.7;
           margin-bottom: 2.5rem;
@@ -69,7 +69,7 @@ export default function Home() {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #3b82f6;
+          background: #2563eb;
           animation: pulse 2s infinite;
         }
 
@@ -84,14 +84,14 @@ export default function Home() {
 
         .admin-link {
           margin-top: 3rem;
-          color: rgba(255,255,255,0.2);
+          color: rgba(0, 0, 0, 0.3);
           text-decoration: none;
           font-size: 0.75rem;
           transition: color 0.2s;
         }
 
         .admin-link:hover {
-          color: rgba(255,255,255,0.6);
+          color: rgba(0, 0, 0, 0.6);
         }
 
         @media (max-width: 768px) {
