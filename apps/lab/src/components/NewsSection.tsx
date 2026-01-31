@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useConfig } from './ConfigProvider';
 
 interface GitHubEvent {
     id: string;
@@ -21,6 +22,7 @@ interface GitHubEvent {
 }
 
 export default function NewsSection() {
+    const { t } = useConfig();
     const [events, setEvents] = useState<GitHubEvent[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -40,11 +42,11 @@ export default function NewsSection() {
             });
     }, []);
 
-    if (loading) return <div className="news-loading">Loading activity...</div>;
+    if (loading) return <div className="news-loading">{t('ui.loading_activity') || 'Loading...'}</div>;
 
     return (
         <div className="news-container">
-            <h3>Recent Activity</h3>
+            <h3>{t('ui.activity')}</h3>
             <div className="event-list">
                 {events.map(event => (
                     <div key={event.id} className="event-card">

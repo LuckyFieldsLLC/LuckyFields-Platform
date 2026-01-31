@@ -6,7 +6,7 @@ import NewsSection from '@/components/NewsSection';
 import ContactModal from '@/components/ContactModal';
 
 export default function Home() {
-  const { config } = useConfig();
+  const { config, t } = useConfig();
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   if (!config) return null;
@@ -26,17 +26,17 @@ export default function Home() {
       <div className="content-layer">
         <div className="glass-panel">
           <h1 className="gradient-text">
-            {config.isInteractiveMode ? 'LuckyFields.Lab' : 'Coming Soon'}
+            {config.isInteractiveMode ? 'LuckyFields.Lab' : t('ui.coming_soon')}
           </h1>
           <p className="description">
             {config.isInteractiveMode
-              ? 'Welcome to the unified creator hub. Explore our projects, media, and experiments.'
-              : 'LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.'}
+              ? t('ui.hub_description') || 'Welcome to the unified creator hub. Explore our projects, media, and experiments.'
+              : t('ui.coming_soon_description') || 'LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.'}
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
             <button className="primary-btn" onClick={() => setIsContactOpen(true)}>
-              Contact Us
+              {t('ui.contact_us')}
             </button>
           </div>
         </div>

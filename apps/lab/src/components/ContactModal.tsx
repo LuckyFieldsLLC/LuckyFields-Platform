@@ -1,30 +1,32 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useConfig } from './ConfigProvider';
 
 export default function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+    const { t } = useConfig();
     if (!isOpen) return null;
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <button className="close-btn" onClick={onClose}>&times;</button>
-                <h2>Contact Us</h2>
+                <h2>{t('ui.contact_us')}</h2>
                 <form name="contact" method="POST" data-netlify="true">
                     <input type="hidden" name="form-name" value="contact" />
                     <div className="form-group">
-                        <label htmlFor="name">Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Your Name" />
+                        <label htmlFor="name">{t('ui.name') || 'Name'}</label>
+                        <input type="text" id="name" name="name" required placeholder={t('ui.name_placeholder') || 'Your Name'} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">{t('ui.email') || 'Email'}</label>
                         <input type="email" id="email" name="email" required placeholder="your@email.com" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="message">Message</label>
-                        <textarea id="message" name="message" required placeholder="How can we help?"></textarea>
+                        <label htmlFor="message">{t('ui.message') || 'Message'}</label>
+                        <textarea id="message" name="message" required placeholder={t('ui.message_placeholder') || 'How can we help?'}></textarea>
                     </div>
-                    <button type="submit" className="submit-btn">Send Message</button>
+                    <button type="submit" className="submit-btn">{t('ui.send_message') || 'Send Message'}</button>
                 </form>
             </div>
 

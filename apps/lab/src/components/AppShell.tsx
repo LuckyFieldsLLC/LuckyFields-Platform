@@ -7,8 +7,7 @@ import { useConfig } from './ConfigProvider';
 interface SiteSettings { site_name: string; default_lang: string; available_langs: string[]; }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-    const { config } = useConfig();
-    const [lang, setLang] = useState('ja');
+    const { config, lang, setLang, t } = useConfig();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
     const pathname = usePathname();
 
@@ -18,22 +17,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             .then(r => r.json())
             .then(s => {
                 setSettings(s);
-                setLang(localStorage.getItem('preferred_lang') || s.default_lang);
             });
     }, []);
 
     const menuItems = [
-        { id: 'all', label: 'Dashboard', icon: '🏠', href: '/admin/dashboard' },
-        { id: 'projects', label: 'Projects', icon: '📂', href: '/admin/dashboard?filter=projects' },
-        { id: 'Applications', label: 'Applications', icon: '📱', href: '/admin/dashboard?filter=Applications' },
-        { id: 'Media', label: 'Media', icon: '🎬', href: '/admin/dashboard?filter=Media' },
-        { id: 'Creative AI', label: 'AI Works', icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
+        { id: 'all', label: t('ui.dashboard'), icon: '🏠', href: '/admin/dashboard' },
+        { id: 'projects', label: t('ui.projects'), icon: '📂', href: '/admin/dashboard?filter=projects' },
+        { id: 'Applications', label: t('ui.categories.Applications'), icon: '📱', href: '/admin/dashboard?filter=Applications' },
+        { id: 'Media', label: t('ui.categories.Media'), icon: '🎬', href: '/admin/dashboard?filter=Media' },
+        { id: 'Creative AI', label: t('ui.categories.Creative AI'), icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
     ];
 
     const handleLangChange = (newLang: string) => {
         setLang(newLang);
-        localStorage.setItem('preferred_lang', newLang);
-        window.location.reload();
     };
 
     const themeClass = config?.themeMode === 'dark' ? 'theme-dark' : 'theme-light';

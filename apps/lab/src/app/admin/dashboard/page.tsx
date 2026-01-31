@@ -6,15 +6,15 @@ import { useSearchParams } from 'next/navigation';
 interface Project { id: string; title: string; category: string; description: Record<string, string>; links: { type: string; url: string }[]; tags: string[]; featured?: boolean; }
 
 import AnalyticsChart from '@/components/AnalyticsChart';
+import { useConfig } from '@/components/ConfigProvider';
 
 function DashboardContent() {
+    const { lang } = useConfig();
     const [data, setData] = useState<{ projects: Project[] }>({ projects: [] });
-    const [lang, setLang] = useState('ja');
     const searchParams = useSearchParams();
     const currentFilter = searchParams.get('filter') || 'all';
 
     useEffect(() => {
-        setLang(localStorage.getItem('preferred_lang') || 'ja');
         fetch('/projects.json')
             .then(r => r.json())
             .then(projects => setData({ projects }));

@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useConfig } from '@/components/ConfigProvider';
 import { SiteConfig } from '../../../../../types/siteConfig';
 
 export default function AdminPage() {
+    const { t } = useConfig();
     const [config, setConfig] = useState<SiteConfig | null>(null);
     const [saving, setSaving] = useState(false);
 
@@ -29,19 +31,19 @@ export default function AdminPage() {
         }
     };
 
-    if (!config) return <div style={{ padding: '2rem' }}>Loading settings...</div>;
+    if (!config) return <div style={{ padding: '2rem' }}>{t('ui.loading') || 'Loading settings...'}</div>;
 
     return (
         <main style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-            <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '2rem' }}>Admin Control Panel</h1>
+            <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '2rem' }}>{t('ui.admin_panel') || 'Admin Control Panel'}</h1>
 
             <div style={{ display: 'grid', gap: '2rem', background: 'rgba(255,255,255,0.03)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
 
                 {/* Gyroscope Toggle */}
                 <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                        <h3 style={{ margin: 0 }}>Gyroscope Interaction</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>Enable/Disable mobile gyro effects</p>
+                        <h3 style={{ margin: 0 }}>{t('ui.gyro_title') || 'Gyroscope Interaction'}</h3>
+                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.gyro_desc') || 'Enable/Disable mobile gyro effects'}</p>
                     </div>
                     <button
                         onClick={() => saveConfig({ ...config, isGyroEnabled: !config.isGyroEnabled })}
@@ -63,8 +65,8 @@ export default function AdminPage() {
                 {/* Color Picker */}
                 <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                        <h3 style={{ margin: 0 }}>Background Aura Color</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>Select the primary ambient color</p>
+                        <h3 style={{ margin: 0 }}>{t('ui.theme_color_title') || 'Background Aura Color'}</h3>
+                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.theme_color_desc') || 'Select the primary ambient color'}</p>
                     </div>
                     <input
                         type="color"
@@ -77,8 +79,8 @@ export default function AdminPage() {
                 {/* Spirit Mode Select */}
                 <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                        <h3 style={{ margin: 0 }}>Current Spirit Mode</h3>
-                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>Change the atmosphere intensity</p>
+                        <h3 style={{ margin: 0 }}>{t('ui.spirit_mode_title') || 'Current Spirit Mode'}</h3>
+                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>{t('ui.spirit_mode_desc') || 'Change the atmosphere intensity'}</p>
                     </div>
                     <select
                         value={config.activeEvent}
