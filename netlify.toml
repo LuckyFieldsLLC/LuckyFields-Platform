@@ -1,8 +1,9 @@
 [build]
-  # Build apps/lab (Next.js)
   command = "npm run build -w @luckyfields/lab"
   publish = "apps/lab/.next"
-  functions = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [build.environment]
   # Pin Node version used by Netlify build image.
