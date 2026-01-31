@@ -44,7 +44,31 @@
             "login_button": "Authenticate",
             "invalid_password": "Invalid password",
             "customization_mode": "✨ Customization Mode Active",
-            "logout_button": "Logout"
+            "logout_button": "Logout",
+            "show_help": "Show Help",
+            "close_help": "Close Help",
+            "feature_toggles": "Feature Activation",
+            "visual_identity": "Visual Identity / Colors",
+            "atmosphere": "Atmospheric Settings",
+            "primary_color": "Primary Accent Color",
+            "aura_color": "Background Aura Color",
+            "glass_opacity": "Glass Backdrop Opacity",
+            "theme_mode": "Theme Mode (Light / Dark)",
+            "spirit_mode": "Spirit Mode Selection",
+            "status_on": "ON",
+            "status_off": "OFF",
+            "saving": "Saving settings...",
+            "event_normal": "Normal Mode",
+            "event_blessing": "Blessing (Heavy)",
+            "event_special": "Special Event Mode",
+            "back_to_dashboard": "← Back to Dashboard",
+            "features": {
+                "interactive": "Interactive Effects",
+                "zodiac": "Background Zodiacs",
+                "particles": "Floating Particles",
+                "news": "Recent Activity Section",
+                "gyro": "Gyroscope Interaction"
+            }
         }
     }
 }

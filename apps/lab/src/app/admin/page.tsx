@@ -154,12 +154,12 @@ export default function AdminPage() {
                             <div style={{ display: 'grid', gap: '0.5rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <span>{t('ui.admin.glass_opacity')}</span>
-                                    <span>{Math.round(config.bgOpacity * 100)}%</span>
+                                    <span>{Math.round((config.bgOpacity || 0) * 100)}%</span>
                                 </div>
                                 <input
                                     type="range" min="0" max="1" step="0.05"
-                                    value={config.bgOpacity}
-                                    onChange={e => saveConfig({ ...config, bgOpacity: parseFloat(e.target.value) })}
+                                    value={config.bgOpacity || 0}
+                                    onChange={e => saveConfig({ ...config, bgOpacity: parseFloat(e.target.value) || 0 })}
                                     style={{ width: '100%' }}
                                 />
                             </div>
