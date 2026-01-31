@@ -5,12 +5,22 @@
   --secondary-text: #475569;
   --accent-color: #3b82f6;
   --accent-glow: #3b82f633;
-  --card-bg-dyn: rgba(255, 255, 255, 0.6);
-  --sidebar-bg: rgba(255, 255, 255, 0.4);
-  --header-bg: rgba(255, 255, 255, 0.7);
-  --border-dyn: rgba(0, 0, 0, 0.05);
+  --card-bg-dyn: rgba(255, 255, 255, 0.8);
+  --sidebar-bg: rgba(255, 255, 255, 0.6);
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --border-dyn: rgba(0, 0, 0, 0.1);
   --header-height: 80px;
   --grad-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.theme-light {
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --secondary-text: #475569;
+  --card-bg-dyn: rgba(255, 255, 255, 0.8);
+  --sidebar-bg: rgba(248, 250, 252, 0.8);
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --border-dyn: rgba(0, 0, 0, 0.1);
 }
 
 .theme-dark {
@@ -18,10 +28,10 @@
   --text-color: #f8fafc;
   --secondary-text: #94a3b8;
   --accent-color: #60a5fa;
-  --card-bg-dyn: rgba(30, 41, 59, 0.6);
-  --sidebar-bg: rgba(15, 23, 42, 0.6);
-  --header-bg: rgba(15, 23, 42, 0.8);
-  --border-dyn: rgba(255, 255, 255, 0.1);
+  --card-bg-dyn: rgba(30, 41, 59, 0.7);
+  --sidebar-bg: rgba(15, 23, 42, 0.8);
+  --header-bg: rgba(15, 23, 42, 0.9);
+  --border-dyn: rgba(255, 255, 255, 0.15);
 }
 
 * {
@@ -78,7 +88,7 @@ header {
 
 #lang-select {
   background: rgba(255, 255, 255, 0.4);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--border-dyn);
   color: var(--text-color);
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -145,7 +155,7 @@ h3 {
 
 /* Footer */
 footer {
-  border-top: 1px solid var(--card-border);
+  border-top: 1px solid var(--border-dyn);
   padding: 2rem;
   text-align: center;
   color: var(--secondary-text);
@@ -206,7 +216,7 @@ footer {
   z-index: 1100;
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-right: 1px solid var(--card-border);
+  border-right: 1px solid var(--border-dyn);
   padding: var(--header-height) 1.5rem 2rem;
   display: flex;
   flex-direction: column;
@@ -327,7 +337,7 @@ footer {
   font-weight: 500;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--border-dyn);
 }
 
 .featured-section {
@@ -369,7 +379,7 @@ footer {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 99px;
   width: fit-content;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--border-dyn);
 }
 
 .filter-btn {
@@ -397,7 +407,7 @@ footer {
 
 .feed-card {
   padding: 1.5rem;
-  border-bottom: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--border-dyn);
   transition: all 0.3s;
   display: block;
   text-decoration: none;

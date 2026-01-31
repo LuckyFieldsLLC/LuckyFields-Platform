@@ -60,17 +60,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     const isDark = config?.themeMode === 'dark';
     const auraContrast = getContrastColor(config?.themeColor || '#ffffff');
 
+    useEffect(() => {
+        document.body.className = themeClass;
+    }, [themeClass]);
+
     const dynamicStyles = {
         '--primary-color': config?.primaryColor || '#3b82f6',
         '--primary-rgb': hexToRgb(config?.primaryColor || '#3b82f6'),
         '--glass-opacity': config?.bgOpacity ?? 0.7,
         '--text-on-aura': auraContrast,
-        // These will override CSS variables ONLY if we need specific dynamic adjustments
-        /* Keep text colors consistent with theme unless extremely necessary */
     } as React.CSSProperties;
 
     return (
-        <div className={themeClass} style={{ ...dynamicStyles, display: 'contents' }}>
+        <div style={{ ...dynamicStyles, display: 'contents' }}>
             <header>
                 <div className="logo">
                     <a href="/">LuckyFields.Lab</a>
