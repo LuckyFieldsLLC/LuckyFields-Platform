@@ -49,10 +49,10 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--glass-bg);
+  background: var(--header-bg);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--border-dyn);
   padding: 0 1.5rem;
 }
 
@@ -244,8 +244,8 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.4);
-    border-right: 1px solid var(--card-border);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-dyn);
     padding: 2rem 1.5rem;
     position: fixed;
     top: 79px;
@@ -274,8 +274,8 @@ footer {
 }
 
 .card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: var(--card-bg-dyn);
+  border: 1px solid var(--border-dyn);
   border-radius: 20px;
   padding: 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);

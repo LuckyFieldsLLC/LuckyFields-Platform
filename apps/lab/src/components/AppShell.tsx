@@ -39,24 +39,28 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
 
     const getContrastColor = (hexcolor: string) => {
-        if (!hexcolor || hexcolor === 'transparent') return 'white';
+        if (!hexcolor || hexcolor === 'transparent') return 'black'; // Safe default for light theme
         const hex = hexcolor.replace('#', '');
         const r = parseInt(hex.substring(0, 2), 16);
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
         const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        return (yiq >= 128) ? 'black' : 'white';
+        return (yiq >= 150) ? 'black' : 'white'; // Conservative threshold
     };
 
     const themeClass = config?.themeMode === 'dark' ? 'theme-dark' : 'theme-light';
-    const contrastColor = getContrastColor(config?.themeColor || '#3b82f6');
+    const contrastColor = getContrastColor(config?.themeColor || '#ffffff');
 
     const dynamicStyles = {
         '--primary-color': config?.primaryColor || '#3b82f6',
         '--glass-opacity': config?.bgOpacity ?? 0.7,
         '--text-on-aura': contrastColor,
-        '--text-color': contrastColor === 'white' ? '#f1f5f9' : '#1e293b', // Adapting main text color
-        '--secondary-text': contrastColor === 'white' ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)',
+        '--text-color': contrastColor === 'white' ? '#f8fafc' : '#0f172a',
+        '--secondary-text': contrastColor === 'white' ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.6)',
+        '--sidebar-bg': contrastColor === 'white' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.4)',
+        '--header-bg': contrastColor === 'white' ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.7)',
+        '--card-bg-dyn': contrastColor === 'white' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.6)',
+        '--border-dyn': contrastColor === 'white' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
     } as React.CSSProperties;
 
     return (
