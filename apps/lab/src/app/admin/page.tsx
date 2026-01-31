@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useConfig } from '@/components/ConfigProvider';
 import { SiteConfig } from '../../../../../types/siteConfig';
 import AnalyticsDash from '@/components/AnalyticsDash';
+import ZodiacAssetManager from '@/components/ZodiacAssetManager';
 
 export default function AdminPage() {
     const { t, config, setConfig, isLoggedIn, saveConfig, logout } = useConfig() as any;
@@ -82,12 +83,12 @@ export default function AdminPage() {
                         <div style={{ display: 'grid', gap: '1.5rem' }}>
                             <div className="control-group">
                                 <label>{t('ui.admin.primary_color')}</label>
-                                <input type="color" value={config.primaryColor} onChange={e => saveConfig({ ...config, primaryColor: e.target.value })} />
+                                <input type="color" title={t('ui.admin.primary_color')} value={config.primaryColor} onChange={e => saveConfig({ ...config, primaryColor: e.target.value })} />
                             </div>
 
                             <div className="control-group">
                                 <label>{t('ui.admin.aura_color')}</label>
-                                <input type="color" value={config.auraColor} onChange={e => saveConfig({ ...config, auraColor: e.target.value })} />
+                                <input type="color" title={t('ui.admin.aura_color')} value={config.auraColor} onChange={e => saveConfig({ ...config, auraColor: e.target.value })} />
                             </div>
 
                             <div className="control-group">
@@ -95,7 +96,7 @@ export default function AdminPage() {
                                     <label>{t('ui.admin.primary_glow')}</label>
                                     <span>{config.primaryGlow}px</span>
                                 </div>
-                                <input type="range" min="0" max="100" value={config.primaryGlow} onChange={e => saveConfig({ ...config, primaryGlow: parseInt(e.target.value) })} />
+                                <input type="range" title={t('ui.admin.primary_glow')} min="0" max="100" value={config.primaryGlow} onChange={e => saveConfig({ ...config, primaryGlow: parseInt(e.target.value) })} />
                             </div>
 
                             <div className="control-group">
@@ -103,7 +104,7 @@ export default function AdminPage() {
                                     <label>{t('ui.admin.glass_opacity')}</label>
                                     <span>{Math.round(config.glassOpacity * 100)}%</span>
                                 </div>
-                                <input type="range" min="0" max="1" step="0.05" value={config.glassOpacity} onChange={e => saveConfig({ ...config, glassOpacity: parseFloat(e.target.value) })} />
+                                <input type="range" title={t('ui.admin.glass_opacity')} min="0" max="1" step="0.05" value={config.glassOpacity} onChange={e => saveConfig({ ...config, glassOpacity: parseFloat(e.target.value) })} />
                             </div>
 
                             <div className="control-group">
@@ -127,6 +128,10 @@ export default function AdminPage() {
                     </section>
                 </div>
             </div>
+
+            <section style={{ marginTop: '2rem', background: 'rgba(255,255,255,0.03)', padding: '2.5rem', borderRadius: '32px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <ZodiacAssetManager config={config} saveConfig={saveConfig} t={t} />
+            </section>
 
             <style jsx>{`
                 .control-group { display: grid; gap: 0.75rem; }

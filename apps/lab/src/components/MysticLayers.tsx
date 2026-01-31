@@ -33,6 +33,10 @@ export default function MysticLayers({ config, isAdmin }: MysticLayersProps) {
     const springX = useSpring(orientation.x, { stiffness: 50, damping: 20 });
     const springY = useSpring(orientation.y, { stiffness: 50, damping: 20 });
 
+    const currentMapping = config.zodiacMapping?.[zodiac] || {
+        imageUrl: '', x: 0, y: 0, scale: 1, rotate: 0, opacity: 0.6
+    };
+
     // Parallax multipliers for each layer
     const getParallax = (factor: number) => ({
         x: springX.get() * factor * 20,
@@ -52,15 +56,31 @@ export default function MysticLayers({ config, isAdmin }: MysticLayersProps) {
                 <div className="stars-bg" />
             </motion.div>
 
-            {/* Layer 2: Character */}
+            {/* Layer 2: Asset-Based Character */}
             <motion.div
                 className="layer layer-2"
                 style={{
-                    opacity: isAdmin ? (config.characterOpacity || 0.8) : 0.6,
+                    opacity: currentMapping.opacity,
                     ...getParallax(0.5)
                 }}
             >
-                <div className="spirit-character">✨🧘✨</div>
+                {currentMapping.imageUrl ? (
+                    <motion.img
+                        src={`${currentMapping.imageUrl}?nf_resize=fit&w=1200`} // Netlify Image CDN hint
+                        alt={zodiac}
+                        style={{
+                            left: currentMapping.x,
+                            top: currentMapping.y,
+                            scale: currentMapping.scale,
+                            rotate: currentMapping.rotate,
+                            maxWidth: '90vw',
+                            maxHeight: '90vh',
+                            filter: `drop-shadow(0 0 50px ${config.primaryColor}33)`
+                        }}
+                    />
+                ) : (
+                    <div className="spirit-character">✨🧘✨</div>
+                )}
             </motion.div>
 
             {/* Layer 3: Zodiac SVG */}

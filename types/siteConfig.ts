@@ -14,4 +14,12 @@ export type SiteConfig = {
     auraColor: string;
     primaryGlow: number;
     glassOpacity: number;
+    zodiacMapping?: Record<string, {
+        imageUrl: string;
+        x: number;
+        y: number;
+        scale: number;
+        rotate: number;
+        opacity: number;
+    }>;
 };
