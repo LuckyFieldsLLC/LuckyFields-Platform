@@ -23,11 +23,21 @@ export default function Home() {
       })
     }).catch(err => console.error('Logging failed', err));
 
+    const handleScroll = () => {
+      if (window.scrollY > 50 && !showUI) {
+        setShowUI(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
     // Auto-show UI if not in interactive mode
     if (config && !config.isInteractiveMode) {
       setShowUI(true);
     }
-  }, [config]);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [config, showUI]);
 
   const handleTitleClick = () => {
     const newCount = clickCount + 1;
@@ -43,7 +53,7 @@ export default function Home() {
     <div className="home-root" onClick={() => config.isInteractiveMode && !showUI && setShowUI(true)}>
       {/* Layered Mystical Experience */}
       {config.isInteractiveMode && (
-        <MysticLayers config={config} />
+        <MysticLayers config={config} onInteract={() => setShowUI(true)} />
       )}
 
       {/* Content Layer */}

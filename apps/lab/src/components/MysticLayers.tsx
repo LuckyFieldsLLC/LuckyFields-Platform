@@ -7,9 +7,10 @@ import { getZodiacSign, ZodiacSign } from '@/utils/zodiac';
 interface MysticLayersProps {
     config: any;
     isAdmin?: boolean;
+    onInteract?: () => void;
 }
 
-export default function MysticLayers({ config, isAdmin }: MysticLayersProps) {
+export default function MysticLayers({ config, isAdmin, onInteract }: MysticLayersProps) {
     const [zodiac, setZodiac] = useState<ZodiacSign>('Aries');
     const [orientation, setOrientation] = useState({ x: 0, y: 0 });
 
@@ -90,7 +91,7 @@ export default function MysticLayers({ config, isAdmin }: MysticLayersProps) {
                     ...getParallax(0.8)
                 }}
             >
-                <ZodiacDisplay sign={zodiac} />
+                <ZodiacDisplay sign={zodiac} onInteract={onInteract} />
             </motion.div>
 
             {/* Layer 4: Particles */}
@@ -156,7 +157,7 @@ export default function MysticLayers({ config, isAdmin }: MysticLayersProps) {
     );
 }
 
-function ZodiacDisplay({ sign }: { sign: ZodiacSign }) {
+function ZodiacDisplay({ sign, onInteract }: { sign: ZodiacSign, onInteract?: () => void }) {
     return (
         <div className="zodiac-display">
             <motion.div
@@ -179,6 +180,11 @@ function ZodiacDisplay({ sign }: { sign: ZodiacSign }) {
                             fill="white"
                             initial={{ opacity: 0.3 }}
                             whileHover={{ scale: 2, opacity: 1, fill: 'var(--primary-color)' }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onInteract?.();
+                            }}
+                            style={{ cursor: 'pointer' }}
                         />
                     ))}
                 </svg>
