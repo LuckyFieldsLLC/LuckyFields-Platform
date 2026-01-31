@@ -1,138 +1,139 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useConfig } from '@/components/ConfigProvider';
-import NewsSection from '@/components/NewsSection';
+import LabActivity from '@/components/LabActivity';
 import ContactModal from '@/components/ContactModal';
+import MysticLayers from '@/components/MysticLayers';
 
 export default function Home() {
-  const { config, t } = useConfig();
+  const { config, t } = useConfig() as any;
   const [isContactOpen, setIsContactOpen] = useState(false);
+
+  useEffect(() => {
+    // Analytics Logging
+    fetch('/api/analytics/log', {
+      method: 'POST',
+      body: JSON.stringify({
+        pathname: '/',
+        userAgent: navigator.userAgent,
+        country: 'Local' // In production, this would be null and the Edge Function or Server would fill it
+      })
+    }).catch(err => console.error('Logging failed', err));
+  }, []);
 
   if (!config) return null;
 
   return (
-    <div className="page-container">
-      {/* Interactive Experience Layer (Spirit / Constellations) */}
+    <div className="home-root">
+      {/* Layered Mystical Experience */}
       {config.isInteractiveMode && (
-        <div className="interactive-layer">
-          <div className="spirit">✨</div>
-          {config.showZodiac && <div className="stars">✨ Constellation Overlay ✨</div>}
-          {config.showParticles && <div className="particles">◌ ◌ ◌</div>}
-        </div>
+        <MysticLayers config={config} />
       )}
 
-      {/* Main UI Layer */}
-      <div className="content-layer">
-        <div className="glass-panel">
-          <h1 className="gradient-text">
+      {/* Content Layer */}
+      <main className="content-container">
+        <div className="hero-section">
+          <h1 className="hero-title">
             {config.isInteractiveMode ? 'LuckyFields.Lab' : t('ui.coming_soon')}
           </h1>
-          <p className="description">
+          <p className="hero-desc">
             {config.isInteractiveMode
-              ? t('ui.hub_description') || 'Welcome to the unified creator hub. Explore our projects, media, and experiments.'
-              : t('ui.coming_soon_description') || 'LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.'}
+              ? t('ui.hub_description')
+              : t('ui.coming_soon_description')}
           </p>
-
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <button className="primary-btn" onClick={() => setIsContactOpen(true)}>
+          <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
+            <button className="cta-btn" onClick={() => setIsContactOpen(true)}>
               {t('ui.contact_us')}
             </button>
           </div>
         </div>
 
-        {config.showNews && <NewsSection />}
-      </div>
+        {config.showNews && (
+          <div className="activity-section">
+            <LabActivity />
+          </div>
+        )}
+      </main>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
       <style jsx>{`
-        .page-container {
-          position: relative;
-          min-height: 80vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .interactive-layer {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          pointer-events: none;
-          z-index: 1;
-          overflow: hidden;
-        }
-        .spirit {
-          position: absolute;
-          top: 50%; left: 50%;
-          font-size: 4rem;
-          animation: wander 20s infinite alternate ease-in-out;
-        }
-        @keyframes wander {
-          0% { transform: translate(-20vw, -20vh); opacity: 0.5; }
-          100% { transform: translate(20vw, 20vh); opacity: 0.8; }
-        }
-        .stars {
-          position: absolute;
-          top: 10%; width: 100%;
-          text-align: center;
-          font-size: 2rem;
-          opacity: 0.3;
-        }
-        .particles {
-          position: absolute;
-          bottom: 10%; width: 100%;
-          text-align: center;
-          opacity: 0.2;
-          font-size: 3rem;
-        }
-        .content-layer {
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 3rem;
-          width: 100%;
-          max-width: 800px;
-          padding: 2rem;
-        }
-        .glass-panel {
-          padding: 3rem;
-          border-radius: 32px;
-          background: rgba(255, 255, 255, var(--glass-opacity, 0.7));
-          border: 1px solid var(--card-border);
-          backdrop-filter: blur(20px);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
-          text-align: center;
-          width: 100%;
-        }
-        .gradient-text {
-          font-size: 3.5rem;
-          font-weight: 900;
-          margin-bottom: 1rem;
-          background: linear-gradient(135deg, var(--primary-color, #1d4ed8), #6d28d9);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          letter-spacing: -0.02em;
-        }
-        .description {
-          font-size: 1.125rem;
-          line-height: 1.7;
-          margin-bottom: 2rem;
-          opacity: 0.8;
-        }
-        .primary-btn {
-          padding: 0.75rem 2rem;
-          background: var(--primary-color, #3b82f6);
-          color: white;
-          border: none;
-          border-radius: 99px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: transform 0.2s;
-        }
-        .primary-btn:hover { transform: scale(1.05); }
-      `}</style>
+                .home-root {
+                    position: relative;
+                    min-height: 100vh;
+                    color: white;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 2rem;
+                }
+                .content-container {
+                    position: relative;
+                    z-index: 10;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 4rem;
+                    width: 100%;
+                    max-width: 800px;
+                }
+                .hero-section {
+                    background: rgba(255, 255, 255, var(--glass-opacity));
+                    backdrop-filter: blur(20px);
+                    padding: 4rem 3rem;
+                    border-radius: 40px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    text-align: center;
+                    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.4),
+                                0 0 var(--primary-glow) var(--primary-color);
+                    transition: all 0.5s ease;
+                }
+                .hero-title {
+                    font-size: 4rem;
+                    font-weight: 900;
+                    margin-bottom: 1.5rem;
+                    background: linear-gradient(135deg, white, var(--primary-color));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    letter-spacing: -0.05em;
+                }
+                .hero-desc {
+                    font-size: 1.25rem;
+                    line-height: 1.6;
+                    margin-bottom: 2.5rem;
+                    opacity: 0.7;
+                    max-width: 500px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .cta-btn {
+                    padding: 1rem 2.5rem;
+                    background: var(--primary-color);
+                    color: white;
+                    border: none;
+                    border-radius: 99px;
+                    font-weight: 800;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 10px 20px -5px var(--primary-color);
+                }
+                .cta-btn:hover {
+                    transform: translateY(-5px) scale(1.05);
+                    box-shadow: 0 20px 40px -10px var(--primary-color);
+                }
+                .activity-section {
+                    width: 100%;
+                    max-width: 600px;
+                }
+
+                @media (max-width: 768px) {
+                    .hero-title { font-size: 2.5rem; }
+                    .hero-section { padding: 3rem 1.5rem; }
+                }
+            `}</style>
     </div>
   );
 }

@@ -1,116 +1,132 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useConfig } from './ConfigProvider';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-    const { t } = useConfig();
-    if (!isOpen) return null;
+    const { t } = useConfig() as any;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-                <button className="close-btn" onClick={onClose}>&times;</button>
-                <h2>{t('ui.contact_us')}</h2>
-                <form name="contact" method="POST" data-netlify="true">
-                    <input type="hidden" name="form-name" value="contact" />
-                    <div className="form-group">
-                        <label htmlFor="name">{t('ui.name') || 'Name'}</label>
-                        <input type="text" id="name" name="name" required placeholder={t('ui.name_placeholder') || 'Your Name'} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="email">{t('ui.email') || 'Email'}</label>
-                        <input type="email" id="email" name="email" required placeholder="your@email.com" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="message">{t('ui.message') || 'Message'}</label>
-                        <textarea id="message" name="message" required placeholder={t('ui.message_placeholder') || 'How can we help?'}></textarea>
-                    </div>
-                    <button type="submit" className="submit-btn">{t('ui.send_message') || 'Send Message'}</button>
-                </form>
-            </div>
+        <AnimatePresence>
+            {isOpen && (
+                <div className="modal-root">
+                    <motion.div
+                        className="modal-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                    />
 
-            <style jsx>{`
-                .modal-overlay {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(0, 0, 0, 0.7);
-                    backdrop-filter: blur(8px);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 2000;
-                }
-                .modal-content {
-                    background: var(--background, #f8fafc);
-                    color: var(--foreground, #334155);
-                    padding: 2.5rem;
-                    border-radius: 24px;
-                    width: 100%;
-                    max-width: 450px;
-                    position: relative;
-                    border: 1px solid var(--card-border, rgba(0,0,0,0.1));
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-                }
-                .close-btn {
-                    position: absolute;
-                    top: 1rem;
-                    right: 1.5rem;
-                    background: none;
-                    border: none;
-                    font-size: 2rem;
-                    color: var(--foreground, #334155);
-                    opacity: 0.5;
-                    cursor: pointer;
-                }
-                h2 {
-                    margin-top: 0;
-                    margin-bottom: 1.5rem;
-                    font-size: 1.75rem;
-                    font-weight: 800;
-                }
-                .form-group {
-                    margin-bottom: 1.25rem;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.5rem;
-                }
-                label {
-                    font-size: 0.875rem;
-                    font-weight: 600;
-                    opacity: 0.8;
-                }
-                input, textarea {
-                    padding: 0.75rem;
-                    border-radius: 12px;
-                    border: 1px solid var(--card-border, rgba(0,0,0,0.1));
-                    background: rgba(255, 255, 255, 0.05);
-                    color: var(--foreground, #334155);
-                    font-size: 1rem;
-                }
-                textarea {
-                    min-height: 120px;
-                    resize: vertical;
-                }
-                .submit-btn {
-                    width: 100%;
-                    padding: 1rem;
-                    margin-top: 1rem;
-                    border-radius: 12px;
-                    border: none;
-                    background: var(--primary-color, #3b82f6);
-                    color: white;
-                    font-weight: 700;
-                    cursor: pointer;
-                    transition: transform 0.2s;
-                }
-                .submit-btn:hover {
-                    transform: translateY(-2px);
-                }
-            `}</style>
-        </div>
+                    <motion.div
+                        className="modal-content"
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                    >
+                        <button className="close-btn" onClick={onClose}>&times;</button>
+
+                        <div className="header">
+                            <h2>{t('ui.contact_us')}</h2>
+                            <p style={{ opacity: 0.5, fontSize: '0.9rem' }}>Send us a message and we'll get back to you soon.</p>
+                        </div>
+
+                        <form name="contact" method="POST" data-netlify="true">
+                            <input type="hidden" name="form-name" value="contact" />
+
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required placeholder="Your Name" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required placeholder="your@email.com" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Message</label>
+                                <textarea name="message" required placeholder="How can we help?"></textarea>
+                            </div>
+
+                            <button type="submit" className="submit-btn">
+                                {t('ui.admin.save')}
+                            </button>
+                        </form>
+                    </motion.div>
+
+                    <style jsx>{`
+                        .modal-root {
+                            position: fixed;
+                            top: 0; left: 0; right: 0; bottom: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            z-index: 1000;
+                            padding: 1.5rem;
+                        }
+                        .modal-overlay {
+                            position: absolute;
+                            top: 0; left: 0; right: 0; bottom: 0;
+                            background: rgba(0, 0, 0, 0.4);
+                            backdrop-filter: blur(10px);
+                        }
+                        .modal-content {
+                            position: relative;
+                            background: rgba(255, 255, 255, 0.05);
+                            backdrop-filter: blur(40px);
+                            border: 1px solid rgba(255, 255, 255, 0.1);
+                            padding: 3rem;
+                            border-radius: 40px;
+                            width: 100%;
+                            max-width: 500px;
+                            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+                            color: white;
+                        }
+                        .close-btn {
+                            position: absolute;
+                            top: 1.5rem; right: 2rem;
+                            background: none; border: none;
+                            color: white; font-size: 2rem;
+                            opacity: 0.3; cursor: pointer;
+                        }
+                        .header { margin-bottom: 2rem; }
+                        h2 { font-size: 2rem; font-weight: 800; margin: 0; }
+                        
+                        .form-group { margin-bottom: 1.5rem; display: grid; gap: 0.5rem; }
+                        label { font-size: 0.8rem; font-weight: 600; opacity: 0.5; }
+                        input, textarea {
+                            background: rgba(255,255,255,0.05);
+                            border: 1px solid rgba(255,255,255,0.1);
+                            padding: 1rem;
+                            border-radius: 16px;
+                            color: white;
+                            font-size: 1rem;
+                            width: 100%;
+                            outline: none;
+                        }
+                        input:focus, textarea:focus {
+                            border-color: var(--primary-color);
+                        }
+                        textarea { min-height: 120px; }
+                        
+                        .submit-btn {
+                            width: 100%;
+                            padding: 1rem;
+                            background: var(--primary-color);
+                            color: white;
+                            border: none;
+                            border-radius: 99px;
+                            font-weight: 800;
+                            cursor: pointer;
+                            font-size: 1.1rem;
+                            box-shadow: 0 10px 20px -5px var(--primary-color);
+                            margin-top: 1rem;
+                        }
+                    `}</style>
+                </div>
+            )}
+        </AnimatePresence>
     );
 }

@@ -48,6 +48,16 @@ export function ConfigProvider({ children }: { children: React.ReactNode }) {
         }
     }, []);
 
+    useEffect(() => {
+        if (config) {
+            document.documentElement.style.setProperty('--primary-color', config.primaryColor);
+            document.documentElement.style.setProperty('--primary-glow', `${config.primaryGlow}px`);
+            document.documentElement.style.setProperty('--glass-opacity', config.glassOpacity.toString());
+            document.documentElement.style.setProperty('--aura-color', config.auraColor);
+            document.documentElement.style.setProperty('--bg-opacity', config.bgOpacity.toString());
+        }
+    }, [config]);
+
     const setLang = (l: string) => {
         if (dictionaries[l]) {
             setLangState(l);

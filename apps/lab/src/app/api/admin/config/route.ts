@@ -5,21 +5,24 @@ import { SiteConfig } from '../../../../../../../types/siteConfig';
 export async function GET() {
     try {
         const store = getStore('site-config');
-        const config = await store.get('current', { type: 'json' }) as SiteConfig;
+        const config = await store.get('site_settings', { type: 'json' }) as SiteConfig;
 
         const defaultConfig: SiteConfig = {
             isGyroEnabled: false,
             themeColor: '#3b82f6',
             activeEvent: 'Normal',
-            themeMode: 'light',
-            showZodiac: false,
-            showParticles: false,
+            themeMode: 'dark',
+            showZodiac: true,
+            showParticles: true,
             showNews: true,
             primaryColor: '#3b82f6',
             bgOpacity: 0.7,
             isInteractiveMode: false,
             aboutContent: '',
-            changelog: []
+            changelog: [],
+            auraColor: '#6366f1',
+            primaryGlow: 20,
+            glassOpacity: 0.5
         };
 
         return NextResponse.json(config || defaultConfig);
@@ -33,7 +36,7 @@ export async function POST(request: Request) {
     try {
         const config = await request.json() as SiteConfig;
         const store = getStore('site-config');
-        await store.setJSON('current', config);
+        await store.setJSON('site_settings', config);
         return NextResponse.json({ success: true, config });
     } catch (error) {
         console.error('Failed to update config:', error);

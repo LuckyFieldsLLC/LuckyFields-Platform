@@ -33,6 +33,8 @@
             "isGyroEnabled": "Enables parallax motion based on mobile device orientation."
         },
         "hub_description": "Welcome to the unified creator hub. Explore our projects, media, and experiments.",
+        "about_default": "LuckyFields.Lab is the central hub for the creative output of LuckyFieldsLLC. It hosts our experiments, art projects, and tech explorations.",
+        "no_changelog": "No history entries found at this time.",
         "coming_soon_description": "LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.",
         "categories": {
             "Applications": "Applications",
@@ -71,12 +73,20 @@
             "about_placeholder": "Enter site description...",
             "history_placeholder": "What's new...",
             "date_placeholder": "YYYY/MM/DD",
+            "primary_glow": "Glow Intensity",
             "features": {
                 "interactive": "Interactive Effects",
                 "zodiac": "Background Zodiacs",
                 "particles": "Floating Particles",
                 "news": "Recent Activity Section",
                 "gyro": "Gyroscope Interaction"
+            },
+            "analytics": {
+                "title": "Access Analytics Dashboard",
+                "total_pv": "Total Page Views (PV)",
+                "unique_visitors": "Unique Visitors",
+                "top_countries": "Access by Country",
+                "recent_logs": "Recent Activity Logs"
             }
         }
     }

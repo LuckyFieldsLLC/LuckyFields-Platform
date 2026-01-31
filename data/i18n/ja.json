@@ -73,12 +73,20 @@
             "about_placeholder": "サイトの説明を入力してください...",
             "history_placeholder": "更新内容を入力...",
             "date_placeholder": "YYYY/MM/DD",
+            "primary_glow": "グロー（光彩）強度",
             "features": {
                 "interactive": "インタラクティブ演出",
                 "zodiac": "背景の12星座",
                 "particles": "浮遊パーティクル",
                 "news": "最新ニュースセクション",
                 "gyro": "ジャイロスコープ連携"
+            },
+            "analytics": {
+                "title": "アクセス解析ダッシュボード",
+                "total_pv": "延べ閲覧数 (PV)",
+                "unique_visitors": "実数訪問者 (Unique)",
+                "top_countries": "国別アクセス統計",
+                "recent_logs": "直近のログ"
             }
         }
     }

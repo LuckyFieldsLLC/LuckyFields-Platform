@@ -11,4 +11,7 @@ export type SiteConfig = {
     isInteractiveMode: boolean;
     aboutContent?: string;
     changelog?: { date: string; content: string }[];
+    auraColor: string;
+    primaryGlow: number;
+    glassOpacity: number;
 };
