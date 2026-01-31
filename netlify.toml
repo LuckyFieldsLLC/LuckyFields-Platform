@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build -w @luckyfields/lab"
+  command = "cp -r data/* apps/lab/public/ && npm run build -w @luckyfields/lab"
   publish = "apps/lab/.next"
 
 [[plugins]]
