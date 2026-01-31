@@ -15,21 +15,10 @@ function DashboardContent() {
     const currentFilter = searchParams.get('filter') || 'all';
 
     useEffect(() => {
-        if (isLoggedIn) {
-            fetch('/projects.json')
-                .then(r => r.json())
-                .then(projects => setData({ projects }));
-        }
-    }, [isLoggedIn]);
-
-    if (!isLoggedIn) {
-        return (
-            <div style={{ padding: '4rem', textAlign: 'center' }}>
-                <h2>{t('ui.admin.login_title')}</h2>
-                <a href="/admin/login" style={{ color: 'var(--primary-color)' }}>{t('ui.admin.login_button')}</a>
-            </div>
-        );
-    }
+        fetch('/projects.json')
+            .then(r => r.json())
+            .then(projects => setData({ projects }));
+    }, []);
 
     return (
         <div id="dynamic-view">
@@ -37,18 +26,20 @@ function DashboardContent() {
                 <h2 className="category-title" style={{ margin: 0 }}>
                     {currentFilter.toUpperCase()}
                 </h2>
-                <a href="/admin" style={{
-                    padding: '0.5rem 1rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    borderRadius: '8px',
-                    textDecoration: 'none',
-                    color: 'var(--primary-color)',
-                    fontSize: '0.875rem',
-                    fontWeight: 'bold',
-                    border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                    ⚙️ {t('ui.admin_panel')}
-                </a>
+                {isLoggedIn && (
+                    <a href="/admin" style={{
+                        padding: '0.5rem 1rem',
+                        background: 'rgba(255,255,255,0.05)',
+                        borderRadius: '8px',
+                        textDecoration: 'none',
+                        color: 'var(--primary-color)',
+                        fontSize: '0.875rem',
+                        fontWeight: 'bold',
+                        border: '1px solid var(--border-dyn)'
+                    }}>
+                        ⚙️ {t('ui.admin_panel')}
+                    </a>
+                )}
             </div>
 
             {currentFilter === 'all' && (

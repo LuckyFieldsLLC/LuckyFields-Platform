@@ -23,16 +23,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     const isAdminPath = pathname.startsWith('/admin');
 
     const menuItems = [
-        { id: 'home', label: t('ui.home'), icon: '🏠', href: '/' },
-        ...(isLoggedIn ? [
-            { id: 'all', label: t('ui.dashboard'), icon: '📊', href: '/admin/dashboard' },
-            { id: 'projects', label: t('ui.projects'), icon: '📂', href: '/admin/dashboard?filter=projects' },
-            { id: 'Applications', label: t('ui.categories.Applications'), icon: '📱', href: '/admin/dashboard?filter=Applications' },
-            { id: 'Media', label: t('ui.categories.Media'), icon: '🎬', href: '/admin/dashboard?filter=Media' },
-            { id: 'Creative AI', label: t('ui.categories.Creative AI'), icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
-        ] : []),
-        { id: 'contact', label: t('ui.contact_us'), icon: '📧', href: '#contact' }
+        { id: 'all', label: t('ui.dashboard'), icon: '📊', href: '/admin/dashboard' },
+        { id: 'Applications', label: t('ui.categories.Applications'), icon: '📱', href: '/admin/dashboard?filter=Applications' },
+        { id: 'Media', label: t('ui.categories.Media'), icon: '🎬', href: '/admin/dashboard?filter=Media' },
+        { id: 'Creative AI', label: t('ui.categories.Creative AI'), icon: '🤖', href: '/admin/dashboard?filter=Creative%20AI' },
     ];
+
+    const adminMenuItems = isLoggedIn ? [
+        { id: 'admin', label: t('ui.admin_panel'), icon: '⚙️', href: '/admin' },
+    ] : [];
 
     const handleLangChange = (newLang: string) => {
         setLang(newLang);
@@ -106,16 +105,46 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <aside className="sidebar" id="sidebar">
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <div style={{ flex: 1 }}>
-                        {menuItems.map(item => (
-                            <a
-                                key={item.id}
-                                href={item.href}
-                                className={`nav-item ${pathname === item.href || (pathname === '/admin/dashboard' && item.href.includes(item.id)) ? 'active' : ''}`}
-                            >
-                                <span className="nav-icon">{item.icon}</span>
-                                <span>{item.label}</span>
+                        {/* Public Menu Items */}
+                        <div className="menu-group">
+                            <a href="/" className={`nav-item ${pathname === '/' ? 'active' : ''}`}>
+                                <span className="nav-icon">🏠</span>
+                                <span>{t('ui.home')}</span>
                             </a>
-                        ))}
+                            {menuItems.map(item => (
+                                <a
+                                    key={item.id}
+                                    href={item.href}
+                                    className={`nav-item ${pathname === item.href || (pathname === '/admin/dashboard' && item.href.includes(item.id)) ? 'active' : ''}`}
+                                >
+                                    <span className="nav-icon">{item.icon}</span>
+                                    <span>{item.label}</span>
+                                </a>
+                            ))}
+                            <a href="#contact" className="nav-item">
+                                <span className="nav-icon">📧</span>
+                                <span>{t('ui.contact_us')}</span>
+                            </a>
+                        </div>
+
+                        {/* Admin-only Items Integrated into Sidebar */}
+                        {isLoggedIn && (
+                            <div className="menu-group admin-group" style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid var(--border-dyn)' }}>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--secondary-text)', padding: '0 1rem 0.5rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
+                                    Admin Control
+                                </div>
+                                {adminMenuItems.map(item => (
+                                    <a
+                                        key={item.id}
+                                        href={item.href}
+                                        className={`nav-item ${pathname === item.href ? 'active' : ''}`}
+                                    >
+                                        <span className="nav-icon">{item.icon}</span>
+                                        <span>{item.label}</span>
+                                    </a>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     {isLoggedIn && (
                         <div style={{ padding: '1rem', borderTop: '1px solid var(--card-border)' }}>
