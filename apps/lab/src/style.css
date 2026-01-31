@@ -1,19 +1,27 @@
 :root {
   --font-family: 'Outfit', system-ui, -apple-system, sans-serif;
   --bg-color: #f8fafc;
-  /* Slate 50 */
-  --text-color: #334155;
-  /* Slate 700 */
+  --text-color: #0f172a;
+  --secondary-text: #475569;
   --accent-color: #3b82f6;
-  /* Blue 500 */
   --accent-glow: #3b82f633;
-  --card-bg: rgba(255, 255, 255, 0.6);
-  --card-border: rgba(255, 255, 255, 0.8);
-  --secondary-text: #64748b;
-  /* Slate 500 */
+  --card-bg-dyn: rgba(255, 255, 255, 0.6);
+  --sidebar-bg: rgba(255, 255, 255, 0.4);
+  --header-bg: rgba(255, 255, 255, 0.7);
+  --border-dyn: rgba(0, 0, 0, 0.05);
   --header-height: 80px;
-  --glass-bg: rgba(255, 255, 255, 0.7);
   --grad-primary: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.theme-dark {
+  --bg-color: #0f172a;
+  --text-color: #f8fafc;
+  --secondary-text: #94a3b8;
+  --accent-color: #60a5fa;
+  --card-bg-dyn: rgba(30, 41, 59, 0.6);
+  --sidebar-bg: rgba(15, 23, 42, 0.6);
+  --header-bg: rgba(15, 23, 42, 0.8);
+  --border-dyn: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -112,7 +120,7 @@ h3 {
 }
 
 .nav-item:hover {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(var(--primary-rgb, 59, 130, 246), 0.05);
   color: var(--text-color);
 }
 
