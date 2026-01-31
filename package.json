@@ -32,6 +32,7 @@
   "author": "LuckyFields.LLC",
   "license": "MIT",
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.0.0",
     "@types/node": "^22.0.0",
     "typescript": "^5.9.0"
   },
