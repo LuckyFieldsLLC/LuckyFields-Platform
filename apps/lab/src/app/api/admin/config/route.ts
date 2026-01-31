@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
-import { SiteConfig } from '@root/siteConfig';
+import { SiteConfig } from '../../../../../../../types/siteConfig';
 
 export async function GET() {
     try {

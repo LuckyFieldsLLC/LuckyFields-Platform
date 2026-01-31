@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { SiteConfig } from '@root/siteConfig';
+import { SiteConfig } from '../../../../../types/siteConfig';
 
 export default function AdminPage() {
     const [config, setConfig] = useState<SiteConfig | null>(null);

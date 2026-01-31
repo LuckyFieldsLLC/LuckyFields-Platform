@@ -1,23 +1,25 @@
+'use client';
+
 export default function Home() {
-    return (
-        <main className="coming-soon-container">
-            <div className="glass-panel">
-                <h1 className="gradient-text">
-                    Coming Soon:<br />Interactive Experience
-                </h1>
-                <p className="description">
-                    LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.
-                </p>
-                <div className="status-indicator">
-                    <div className="dot"></div>
-                    <div className="dot second"></div>
-                    <div className="dot third"></div>
-                </div>
-            </div>
+  return (
+    <main className="coming-soon-container">
+      <div className="glass-panel">
+        <h1 className="gradient-text">
+          Coming Soon:<br />Interactive Experience
+        </h1>
+        <p className="description">
+          LuckyFields.Lab is evolving. Stay tuned for a new way to explore our creative output.
+        </p>
+        <div className="status-indicator">
+          <div className="dot"></div>
+          <div className="dot second"></div>
+          <div className="dot third"></div>
+        </div>
+      </div>
 
-            <a href="/admin" className="admin-link">Admin Access</a>
+      <a href="/admin" className="admin-link">Admin Access</a>
 
-            <style jsx>{`
+      <style jsx>{`
         .coming-soon-container {
           display: flex;
           flex-direction: column;
@@ -99,7 +101,7 @@ export default function Home() {
         }
       `}</style>
 
-            <style jsx global>{`
+      <style jsx global>{`
         /* Kill the global grid on this specific page */
         #app { 
           display: block !important; 
@@ -108,6 +110,6 @@ export default function Home() {
           grid-template-columns: none !important;
         }
       `}</style>
-        </main>
-    );
+    </main>
+  );
 }
