@@ -10,7 +10,8 @@ export async function GET() {
         const defaultConfig: SiteConfig = {
             isGyroEnabled: false,
             themeColor: '#3b82f6',
-            activeEvent: 'Normal'
+            activeEvent: 'Normal',
+            themeMode: 'light'
         };
 
         return NextResponse.json(config || defaultConfig);

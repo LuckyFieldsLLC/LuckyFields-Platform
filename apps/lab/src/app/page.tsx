@@ -17,7 +17,6 @@ export default function Home() {
         </div>
       </div>
 
-      <a href="/admin" className="admin-link">Admin Access</a>
 
       <style jsx>{`
         .coming-soon-content {

@@ -1,17 +1,59 @@
 @import '../style.css';
 
 :root {
-    /* Respect style.css variables, but define Next.js specific ones if needed */
-    --background: #f8fafc;
-    --foreground: #334155;
+    --bg-light: #f8fafc;
+    --text-light: #334155;
+    --bg-dark: #0f172a;
+    --text-dark: #f8fafc;
+}
+
+.theme-light {
+    --background: var(--bg-light);
+    --foreground: var(--text-light);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.6);
+}
+
+.theme-dark {
+    --background: var(--bg-dark);
+    --foreground: var(--text-dark);
+    --glass-bg: rgba(15, 23, 42, 0.8);
+    --card-bg: rgba(30, 41, 59, 0.6);
+    --secondary-text: #94a3b8;
+    --card-border: rgba(255, 255, 255, 0.1);
 }
 
 body {
-    background-color: var(--background) !important;
-    color: var(--foreground) !important;
+    background-color: var(--background);
+    color: var(--foreground);
 }
 
-/* Ensure #app doesn't break style.css grid */
+/* Ensure #app/wrapper fills screen and uses the background */
+.theme-dark,
+.theme-light {
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.3s, color 0.3s;
+}
+
 #app {
     min-height: 100vh;
+}
+
+/* Fix sidebar/header background in dark mode */
+.theme-dark header,
+.theme-dark .sidebar,
+.theme-dark footer {
+    background: var(--glass-bg);
+    border-color: var(--card-border);
+}
+
+.theme-dark .nav-item {
+    color: var(--secondary-text);
+}
+
+.theme-dark .nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
 }

@@ -98,6 +98,44 @@ export default function AdminPage() {
                     </select>
                 </section>
 
+                {/* Theme Mode Toggle */}
+                <section style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                        <h3 style={{ margin: 0 }}>Theme Mode</h3>
+                        <p style={{ margin: '0.25rem 0 0', color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem' }}>Switch between Light and Dark interface</p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button
+                            onClick={() => saveConfig({ ...config, themeMode: 'light' })}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: config.themeMode === 'light' ? '#fff' : 'rgba(255,255,255,0.05)',
+                                color: config.themeMode === 'light' ? '#000' : '#fff',
+                                cursor: 'pointer',
+                                fontWeight: '600'
+                            }}
+                        >
+                            LIGHT
+                        </button>
+                        <button
+                            onClick={() => saveConfig({ ...config, themeMode: 'dark' })}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: config.themeMode === 'dark' ? '#334155' : 'rgba(255,255,255,0.05)',
+                                color: '#fff',
+                                cursor: 'pointer',
+                                fontWeight: '600'
+                            }}
+                        >
+                            DARK
+                        </button>
+                    </div>
+                </section>
+
             </div>
 
             {saving && <p style={{ marginTop: '1rem', color: '#3b82f6', textAlign: 'center' }}>Updating configuration...</p>}

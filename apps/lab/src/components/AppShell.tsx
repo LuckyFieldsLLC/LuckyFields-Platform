@@ -1,22 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { SiteConfig } from '../../../../types/siteConfig';
 
 interface SiteSettings { site_name: string; default_lang: string; available_langs: string[]; }
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const [lang, setLang] = useState('ja');
     const [settings, setSettings] = useState<SiteSettings | null>(null);
+    const [config, setConfig] = useState<SiteConfig | null>(null);
     const pathname = usePathname();
 
     useEffect(() => {
+        // Fetch original settings
         fetch('/site_settings.json')
             .then(r => r.json())
             .then(s => {
                 setSettings(s);
                 setLang(localStorage.getItem('preferred_lang') || s.default_lang);
             });
+
+        // Fetch dynamic config (including themeMode)
+        fetch('/api/admin/config')
+            .then(r => r.json())
+            .then(setConfig);
     }, []);
 
     const menuItems = [
@@ -33,11 +41,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         window.location.reload();
     };
 
+    const themeClass = config?.themeMode === 'dark' ? 'theme-dark' : 'theme-light';
+
     return (
-        <>
+        <div className={themeClass} style={{ display: 'contents' }}>
             <header>
                 <div className="logo">
                     <a href="/">LuckyFields.Lab</a>
+                    <a href="/admin" style={{
+                        opacity: 0,
+                        fontSize: '0.8rem',
+                        marginLeft: '2px',
+                        cursor: 'default',
+                        textDecoration: 'none',
+                        color: 'inherit'
+                    }}>@</a>
                 </div>
                 <div id="header-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <select
@@ -72,6 +90,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <footer>
                 <p>© 2026 LuckyFields.LLC - All Rights Reserved.</p>
             </footer>
-        </>
+        </div>
     );
 }
