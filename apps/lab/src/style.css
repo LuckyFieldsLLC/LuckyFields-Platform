@@ -266,11 +266,12 @@ footer {
     border-right: 1px solid var(--border-dyn);
     padding: 2rem 1.5rem;
     position: fixed;
-    top: 79px;
+    top: var(--header-height);
     left: 0;
-    height: calc(100vh - 80px - 70px);
+    height: calc(100vh - var(--header-height) - 70px);
     overflow-y: auto;
     width: 280px;
+    z-index: 1;
   }
 
   #content {
